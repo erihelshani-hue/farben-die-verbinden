@@ -2,9 +2,15 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getAllArtworks, getArtworkBySlug } from "@/sanity/lib/queries";
+import {
+  getAllArtworks,
+  getArtworkBySlug,
+  getRelatedArtworks,
+} from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import ContactForm from "@/components/ContactForm";
+import ArtworkCard from "@/components/ArtworkCard";
+import FadeIn from "@/components/FadeIn";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -21,7 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!artwork) return {};
   return {
     title: artwork.title,
-    description: artwork.description ?? `${artwork.title} — ${artwork.technique}`,
+    description:
+      artwork.description ?? `${artwork.title} — ${artwork.technique ?? ""}`.trim(),
   };
 }
 
@@ -32,66 +39,99 @@ export default async function ArtworkDetailPage({ params }: Props) {
   const artwork = await getArtworkBySlug(slug);
   if (!artwork) notFound();
 
-  const imageUrl = urlFor(artwork.image).width(1200).height(900).fit("max").url();
+  const related = await getRelatedArtworks(artwork.category, artwork._id);
+
+  const imageUrl = urlFor(artwork.image).width(2000).fit("max").url();
+
+  const details = [
+    ["Technik", artwork.technique],
+    ["Maße", artwork.dimensions],
+    ["Jahr", artwork.year?.toString()],
+  ].filter(([, v]) => v) as [string, string][];
 
   return (
-    <div className="pt-24 pb-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <Link href="/galerie" className="inline-flex items-center gap-2 text-sm text-[#211E1A]/60 hover:text-[#D87436] mb-8 transition-colors">
-          ← Zurück zur Galerie
-        </Link>
+    <article className="pt-20">
+      {/* Großes Bild */}
+      <div className="relative w-full h-[70vh] bg-ink">
+        <Image
+          src={imageUrl}
+          alt={artwork.title}
+          fill
+          sizes="100vw"
+          priority
+          className="object-contain"
+        />
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Image */}
-          <div className="relative rounded-xl overflow-hidden shadow-lg">
-            <Image
-              src={imageUrl}
-              alt={artwork.title}
-              width={1200}
-              height={900}
-              className="w-full h-auto object-contain"
-              priority
-            />
-          </div>
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 md:py-24">
+        {/* Breadcrumb */}
+        <nav
+          className="text-[12px] font-light uppercase tracking-[0.1em] text-stone mb-12"
+          aria-label="Brotkrumen"
+        >
+          <Link href="/galerie" className="hover:text-accent transition-colors">
+            Galerie
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-ink">{artwork.title}</span>
+        </nav>
 
-          {/* Details + Form */}
-          <div>
-            <h1 className="font-headline text-4xl md:text-5xl text-[#211E1A] mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          {/* Links: Fakten */}
+          <FadeIn from="left">
+            <h1 className="font-serif font-light text-4xl md:text-6xl text-ink mb-10 leading-tight">
               {artwork.title}
             </h1>
+            <dl className="divide-y divide-line border-y border-line">
+              {details.map(([label, value]) => (
+                <div key={label} className="flex justify-between py-4">
+                  <dt className="text-[12px] font-light uppercase tracking-[0.1em] text-stone">
+                    {label}
+                  </dt>
+                  <dd className="text-base font-light text-ink">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </FadeIn>
 
-            <div className="flex flex-wrap gap-3 mb-6">
-              {artwork.technique && (
-                <span className="px-3 py-1 bg-[#D87436]/10 text-[#D87436] rounded-full text-sm">
-                  {artwork.technique}
-                </span>
-              )}
-              {artwork.dimensions && (
-                <span className="px-3 py-1 bg-[#1B589F]/10 text-[#1B589F] rounded-full text-sm">
-                  {artwork.dimensions}
-                </span>
-              )}
-              {artwork.year && (
-                <span className="px-3 py-1 bg-[#211E1A]/5 text-[#211E1A]/60 rounded-full text-sm">
-                  {artwork.year}
-                </span>
-              )}
-            </div>
-
+          {/* Rechts: Beschreibung + Anfrage */}
+          <FadeIn from="right">
             {artwork.description && (
-              <p className="text-[#211E1A]/70 leading-relaxed mb-10">{artwork.description}</p>
+              <p className="font-serif italic font-light text-2xl leading-[1.5] text-ink mb-12">
+                {artwork.description}
+              </p>
             )}
-
-            <div className="border-t border-[#211E1A]/10 pt-8">
-              <h2 className="font-headline text-2xl text-[#211E1A] mb-2">Preis auf Anfrage</h2>
-              <p className="text-sm text-[#211E1A]/60 mb-6">
-                Füllen Sie das Formular aus — wir melden uns schnellstmöglich bei Ihnen.
+            <div className="border-t border-line pt-10">
+              <p className="text-[11px] font-light uppercase tracking-[0.3em] text-accent mb-2">
+                Preis auf Anfrage
+              </p>
+              <p className="text-sm font-light text-stone mb-8">
+                Füllen Sie das Formular aus — wir melden uns schnellstmöglich bei
+                Ihnen.
               </p>
               <ContactForm artworkTitle={artwork.title} />
             </div>
-          </div>
+          </FadeIn>
         </div>
+
+        {/* Weitere Werke */}
+        {related.length > 0 && (
+          <section className="mt-28 md:mt-40">
+            <FadeIn>
+              <h2 className="text-[11px] font-light uppercase tracking-[0.3em] text-accent mb-12 text-center">
+                Weitere Werke
+              </h2>
+            </FadeIn>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
+              {related.map((a, i) => (
+                <FadeIn key={a._id} delay={i * 0.08}>
+                  <ArtworkCard artwork={a} />
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
-    </div>
+    </article>
   );
 }

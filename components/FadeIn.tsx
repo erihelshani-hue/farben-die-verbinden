@@ -8,20 +8,37 @@ interface Props {
   /** Verzögerung in Sekunden, z.B. für gestaffelte Listen */
   delay?: number;
   className?: string;
+  /** Verschieberichtung beim Einblenden */
+  from?: "up" | "left" | "right";
 }
 
-// Sanftes Einblenden beim Scrollen. Bei "Bewegung reduzieren" wird der
-// Inhalt sofort ohne Bewegung gezeigt.
-export default function FadeIn({ children, delay = 0, className }: Props) {
+const distance = 40;
+
+// Sanftes Einblenden beim Scrollen (fadeUp). Bei „Bewegung reduzieren" wird
+// der Inhalt sofort ohne Bewegung gezeigt.
+export default function FadeIn({
+  children,
+  delay = 0,
+  className,
+  from = "up",
+}: Props) {
   const reduce = useReducedMotion();
+
+  const offset = reduce
+    ? {}
+    : from === "left"
+      ? { x: -distance }
+      : from === "right"
+        ? { x: distance }
+        : { y: distance };
 
   return (
     <motion.div
       className={className}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, ...offset }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>

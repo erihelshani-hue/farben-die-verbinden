@@ -19,15 +19,24 @@ export const artist = defineType({
     }),
     defineField({
       name: "bio",
-      title: "Biografie",
+      title: "Kurzbiografie",
       type: "array",
       of: [{ type: "block" }],
+      description: "Kurzer Text (max. 3 Absätze), erscheint im Teaser.",
     }),
     defineField({
       name: "statement",
-      title: "Künstlerisches Statement",
+      title: "Statement / Zitat",
       type: "text",
-      rows: 6,
+      rows: 3,
+      description: "1–2 Sätze, als großes Zitat hervorgehoben.",
+    }),
+    defineField({
+      name: "longBio",
+      title: "Langbiografie",
+      type: "array",
+      of: [{ type: "block" }],
+      description: "Ausführlicher Text auf der Künstlerinnen-Seite.",
     }),
     defineField({
       name: "exhibitionTitle",

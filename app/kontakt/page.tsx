@@ -15,28 +15,34 @@ export default async function KontaktPage() {
   const email = settings?.kontaktEmail ?? "kontakt@farben-die-verbinden.de";
 
   return (
-    <div className="pt-24 pb-24">
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h1 className="font-headline text-4xl md:text-5xl text-[#211E1A] mb-4">
+    <div className="relative pt-20 overflow-hidden">
+      {/* Sehr großes, fast unsichtbares Hintergrundwort */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none select-none absolute -top-4 left-1/2 -translate-x-1/2 font-serif font-light text-[28vw] leading-none text-ink/[0.03] whitespace-nowrap"
+      >
+        Kontakt
+      </span>
+
+      <div className="relative max-w-xl mx-auto px-6 py-24 md:py-32">
+        <div className="text-center mb-16">
+          <h1 className="font-serif font-light text-5xl md:text-6xl text-ink mb-5">
             Kontakt
           </h1>
-          <p className="text-[#211E1A]/60">
+          <p className="text-base font-light text-stone">
             Interesse an einem Werk oder Fragen zur Ausstellung? Wir freuen uns
             auf Ihre Nachricht.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
-          <ContactForm />
-        </div>
+        <ContactForm />
 
-        <div className="mt-10 text-center text-sm text-[#211E1A]/60 space-y-1">
+        <div className="mt-16 text-center text-sm font-light text-stone space-y-2">
           <p>Oder direkt:</p>
           <p>
             <a
               href={`mailto:${email}`}
-              className="text-[#D87436] hover:underline font-medium"
+              className="text-accent hover:underline underline-offset-4"
             >
               {email}
             </a>
@@ -45,7 +51,7 @@ export default async function KontaktPage() {
             <p>
               <a
                 href={`tel:${settings.telefon.replace(/\s/g, "")}`}
-                className="text-[#D87436] hover:underline font-medium"
+                className="text-accent hover:underline underline-offset-4"
               >
                 {settings.telefon}
               </a>

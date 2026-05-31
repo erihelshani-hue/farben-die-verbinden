@@ -1,28 +1,32 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
-const fraunces = Fraunces({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
   display: "swap",
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500"],
+  variable: "--font-dmsans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://farben-die-verbinden.de"),
   title: {
-    default: "Farben die verbinden — Kunstausstellung von Vjollca",
-    template: "%s | Farben die verbinden",
+    default: "Farben die verbinden — Vjollca Reshani",
+    template: "%s — Farben die verbinden",
   },
   description:
-    "Eine Ausstellung von Vjollca. 13 Werke, die durch Farbe, Natur und Emotion verbinden.",
+    "Kunstausstellung von Vjollca Reshani. Gemälde, die durch Farbe, Natur und Emotion verbinden.",
   openGraph: {
     siteName: "Farben die verbinden",
     locale: "de_DE",
@@ -36,8 +40,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de" className={`${fraunces.variable} ${inter.variable}`}>
-      <body className="bg-[#FAF7F2] text-[#211E1A] font-[var(--font-inter)]">
+    <html
+      lang="de"
+      className={`${cormorant.variable} ${dmSans.variable}`}
+    >
+      <body className="bg-canvas text-ink font-sans antialiased">
         <Navigation />
         <main>{children}</main>
         <Footer />

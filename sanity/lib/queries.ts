@@ -21,6 +21,7 @@ export interface Artist {
   photo?: { asset: { _ref: string } };
   bio?: unknown[];
   statement?: string;
+  longBio?: unknown[];
   exhibitionTitle?: string;
   exhibitionText?: string;
 }
@@ -73,6 +74,22 @@ export async function getArtworkBySlug(slug: string): Promise<Artwork | null> {
   return client.fetch(
     `*[_type == "artwork" && slug.current == $slug][0] { ${artworkFields} }`,
     { slug }
+  );
+}
+
+export async function getRelatedArtworks(
+  category: Category | undefined,
+  excludeId: string
+): Promise<Artwork[]> {
+  if (!category) {
+    return client.fetch(
+      `*[_type == "artwork" && _id != $excludeId] | order(order asc)[0...3] { ${artworkFields} }`,
+      { excludeId }
+    );
+  }
+  return client.fetch(
+    `*[_type == "artwork" && category == $category && _id != $excludeId] | order(order asc)[0...3] { ${artworkFields} }`,
+    { category, excludeId }
   );
 }
 

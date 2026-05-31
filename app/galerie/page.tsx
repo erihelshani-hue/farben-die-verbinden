@@ -28,29 +28,45 @@ export default function GaleriePage() {
   }, []);
 
   const filtered =
-    filter === "alle" ? artworks : artworks.filter((a) => a.category === filter);
+    filter === "alle"
+      ? artworks
+      : artworks.filter((a) => a.category === filter);
 
   return (
-    <div className="pt-24 pb-24">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="font-headline text-4xl md:text-5xl text-[#211E1A] mb-4">Galerie</h1>
-          <p className="text-[#211E1A]/60 max-w-xl mx-auto">
+    <>
+      {/* Hero */}
+      <section className="pt-20 bg-[#EDE7DC]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="font-serif font-light text-6xl md:text-8xl text-ink"
+          >
+            Galerie
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="mt-6 text-base font-light text-stone max-w-xl mx-auto"
+          >
             Werke, entstanden aus der Begegnung mit Natur, Licht und Farbe.
-          </p>
+          </motion.p>
         </div>
+      </section>
 
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 md:py-24">
         {/* Filter */}
-        <div className="flex flex-wrap gap-2 justify-center mb-12">
+        <div className="flex flex-wrap gap-3 justify-center mb-16">
           {categories.map(({ value, label }) => (
             <button
               key={value}
               onClick={() => setFilter(value)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-5 py-2 rounded-full text-[12px] font-light uppercase tracking-[0.1em] transition-colors ${
                 filter === value
-                  ? "bg-[#D87436] text-white"
-                  : "bg-[#211E1A]/5 text-[#211E1A] hover:bg-[#211E1A]/10"
+                  ? "bg-accent text-white"
+                  : "border border-ink/15 text-ink/70 hover:border-accent hover:text-accent"
               }`}
             >
               {label}
@@ -60,22 +76,28 @@ export default function GaleriePage() {
 
         {/* Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-[4/3] rounded-lg bg-[#211E1A]/5 animate-pulse" />
+              <div
+                key={i}
+                className="aspect-[4/5] bg-ink/5 animate-pulse"
+              />
             ))}
           </div>
         ) : (
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatePresence>
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10"
+          >
+            <AnimatePresence mode="popLayout">
               {filtered.map((artwork) => (
                 <motion.div
                   key={artwork._id}
                   layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <ArtworkCard artwork={artwork} />
                 </motion.div>
@@ -85,11 +107,11 @@ export default function GaleriePage() {
         )}
 
         {!loading && filtered.length === 0 && (
-          <p className="text-center text-[#211E1A]/40 mt-12">
+          <p className="text-center text-stone font-light mt-12">
             Keine Werke in dieser Kategorie.
           </p>
         )}
       </div>
-    </div>
+    </>
   );
 }
