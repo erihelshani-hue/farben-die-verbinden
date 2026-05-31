@@ -1,15 +1,28 @@
-import type {StructureResolver} from 'sanity/structure'
+import type { StructureResolver } from "sanity/structure";
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
+// Übersichtliche Studio-Navigation für eine nicht-technische Redakteurin:
+// Singletons (Ausstellung, Künstlerin, Einstellungen) als einzelne Einträge,
+// die Werke als normale Liste.
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Blog')
+    .title("Inhalte")
     .items([
-      S.documentTypeListItem('post').title('Posts'),
-      S.documentTypeListItem('category').title('Categories'),
-      S.documentTypeListItem('author').title('Authors'),
+      S.listItem()
+        .title("Ausstellung")
+        .id("exhibitionInfo")
+        .child(
+          S.document().schemaType("exhibitionInfo").documentId("exhibitionInfo")
+        ),
+      S.listItem()
+        .title("Künstlerin")
+        .id("artist")
+        .child(S.document().schemaType("artist").documentId("artist")),
+      S.listItem()
+        .title("Website-Einstellungen")
+        .id("siteSettings")
+        .child(
+          S.document().schemaType("siteSettings").documentId("siteSettings")
+        ),
       S.divider(),
-      ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['post', 'category', 'author'].includes(item.getId()!),
-      ),
-    ])
+      S.documentTypeListItem("artwork").title("Kunstwerke"),
+    ]);

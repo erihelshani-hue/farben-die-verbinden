@@ -17,6 +17,7 @@ interface Props {
 
 export default function ContactForm({ artworkTitle }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -38,9 +39,12 @@ export default function ContactForm({ artworkTitle }: Props) {
         setStatus("success");
         reset();
       } else {
+        const body = await res.json().catch(() => null);
+        setErrorMsg(body?.error ?? "");
         setStatus("error");
       }
     } catch {
+      setErrorMsg("");
       setStatus("error");
     }
   };
@@ -120,7 +124,7 @@ export default function ContactForm({ artworkTitle }: Props) {
       )}
       {status === "error" && (
         <p className="text-center text-[#D8365E]">
-          Leider ist etwas schiefgelaufen. Bitte versuchen Sie es erneut.
+          {errorMsg || "Leider ist etwas schiefgelaufen. Bitte versuchen Sie es erneut."}
         </p>
       )}
     </motion.form>

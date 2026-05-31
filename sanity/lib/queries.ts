@@ -8,11 +8,13 @@ export interface Artwork {
   technique?: string;
   dimensions?: string;
   year?: number;
-  category?: string;
+  category?: Category;
   description?: string;
   featured?: boolean;
   order?: number;
 }
+
+export type Category = "baeume-natur" | "abstrakt" | "maritim" | "tiere";
 
 export interface Artist {
   name: string;
@@ -21,6 +23,24 @@ export interface Artist {
   statement?: string;
   exhibitionTitle?: string;
   exhibitionText?: string;
+}
+
+export interface ExhibitionInfo {
+  titel: string;
+  einleitungstext?: string;
+  story?: string;
+  botschaft?: string;
+}
+
+export interface SocialLink {
+  plattform?: string;
+  url?: string;
+}
+
+export interface SiteSettings {
+  kontaktEmail: string;
+  telefon?: string;
+  socialLinks?: SocialLink[];
 }
 
 const artworkFields = `
@@ -58,4 +78,12 @@ export async function getArtworkBySlug(slug: string): Promise<Artwork | null> {
 
 export async function getArtist(): Promise<Artist | null> {
   return client.fetch(`*[_type == "artist"][0]`);
+}
+
+export async function getExhibitionInfo(): Promise<ExhibitionInfo | null> {
+  return client.fetch(`*[_type == "exhibitionInfo"][0]`);
+}
+
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+  return client.fetch(`*[_type == "siteSettings"][0]`);
 }

@@ -7,10 +7,10 @@ import type { Artwork } from "@/sanity/lib/queries";
 
 const categories = [
   { value: "alle", label: "Alle" },
-  { value: "baeume", label: "Bäume" },
-  { value: "natur", label: "Natur" },
+  { value: "baeume-natur", label: "Bäume & Natur" },
   { value: "abstrakt", label: "Abstrakt" },
   { value: "maritim", label: "Maritim" },
+  { value: "tiere", label: "Tiere" },
 ];
 
 export default function GaleriePage() {
@@ -37,7 +37,7 @@ export default function GaleriePage() {
         <div className="text-center mb-12">
           <h1 className="font-headline text-4xl md:text-5xl text-[#211E1A] mb-4">Galerie</h1>
           <p className="text-[#211E1A]/60 max-w-xl mx-auto">
-            13 Werke — entstanden aus der Begegnung mit Natur, Licht und Farbe.
+            Werke, entstanden aus der Begegnung mit Natur, Licht und Farbe.
           </p>
         </div>
 

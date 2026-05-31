@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Farben */
+  /* Farben des Design-Systems */
   --color-cream: #FAF7F2;
   --color-anthrazit: #1A1815;
   --color-text: #211E1A;
@@ -10,9 +10,9 @@
   --color-tuerkis: #36B0D8;
   --color-magenta: #D8365E;
 
-  /* Typografie */
-  --font-headline: "Fraunces", Georgia, serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  /* Typografie — referenziert die per next/font geladenen Variablen (siehe layout.tsx) */
+  --font-headline: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
 @layer base {
@@ -30,5 +30,24 @@
   ::selection {
     background-color: var(--color-orange);
     color: white;
+  }
+
+  /* Sichtbare, einheitliche Fokus-States für Tastatur-Navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* Respektiere die Systemeinstellung "Bewegung reduzieren" */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

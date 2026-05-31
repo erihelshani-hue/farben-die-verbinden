@@ -29,7 +29,15 @@ export const artwork = defineType({
       name: "technique",
       title: "Technik",
       type: "string",
-      description: "z.B. Acryl auf Leinwand",
+      options: {
+        list: [
+          { title: "Acryl", value: "Acryl" },
+          { title: "Aquarell", value: "Aquarell" },
+          { title: "Öl", value: "Öl" },
+          { title: "Mischtechnik", value: "Mischtechnik" },
+        ],
+      },
+      description: "Verwendete Maltechnik.",
     }),
     defineField({
       name: "dimensions",
@@ -48,12 +56,13 @@ export const artwork = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Bäume", value: "baeume" },
-          { title: "Natur", value: "natur" },
+          { title: "Bäume & Natur", value: "baeume-natur" },
           { title: "Abstrakt", value: "abstrakt" },
           { title: "Maritim", value: "maritim" },
+          { title: "Tiere", value: "tiere" },
         ],
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "description",

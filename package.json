@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "sanity exec scripts/seed.ts --with-user-token"
   },
   "dependencies": {
-    "@sanity/client": "^6.22.0",
+    "@sanity/client": "^7.22.1",
     "@sanity/image-url": "^2.0.0",
     "framer-motion": "^11.11.0",
     "next": "^15.0.0",
@@ -18,7 +19,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.53.0",
     "resend": "^4.0.0",
-    "sanity": "^5.0.0",
+    "sanity": "^4.22.0",
     "sharp": "^0.33.0",
     "styled-components": "^6.4.2"
   },
