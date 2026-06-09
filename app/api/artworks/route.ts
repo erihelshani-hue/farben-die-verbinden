@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAllArtworks } from "@/sanity/lib/queries";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 export async function GET() {
   const artworks = await getAllArtworks();
