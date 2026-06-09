@@ -4,8 +4,7 @@ import { getSiteSettings } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description:
-    "Anfragen zu Werken und zur Ausstellung Farben die verbinden von Vjollca Reshani.",
+  description: "Anfragen zu Werken und zur Ausstellung Farben die verbinden von Vjollca Reshani.",
 };
 
 export const revalidate = 3600;
@@ -15,48 +14,57 @@ export default async function KontaktPage() {
   const email = settings?.kontaktEmail ?? "kontakt@farben-die-verbinden.de";
 
   return (
-    <div className="relative pt-20 overflow-hidden">
-      {/* Sehr großes, fast unsichtbares Hintergrundwort */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none select-none absolute -top-4 left-1/2 -translate-x-1/2 font-serif font-light text-[28vw] leading-none text-ink/[0.03] whitespace-nowrap"
-      >
-        Kontakt
-      </span>
+    <div className="bg-ink min-h-screen pt-[72px]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16 md:py-24">
 
-      <div className="relative max-w-xl mx-auto px-6 py-24 md:py-32">
-        <div className="text-center mb-16">
-          <h1 className="font-serif font-light text-5xl md:text-6xl text-ink mb-5">
-            Kontakt
+        {/* Header */}
+        <div
+          className="flex flex-wrap items-baseline gap-x-8 gap-y-1 border-b-[2.5px] border-white/20 pb-4 mb-16"
+        >
+          <h1
+            className="text-white uppercase leading-none"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              letterSpacing: "-0.025em",
+              fontSize: "clamp(1.8rem, 5vw, 3.2rem)",
+            }}
+          >
+            Anfrage
           </h1>
-          <p className="text-base font-light text-stone">
-            Interesse an einem Werk oder Fragen zur Ausstellung? Wir freuen uns
-            auf Ihre Nachricht.
-          </p>
+          <span className="text-white/40 text-[0.78rem] font-semibold uppercase tracking-[0.14em]">
+            Preis auf Anfrage
+          </span>
         </div>
 
-        <ContactForm />
-
-        <div className="mt-16 text-center text-sm font-light text-stone space-y-2">
-          <p>Oder direkt:</p>
-          <p>
-            <a
-              href={`mailto:${email}`}
-              className="text-accent hover:underline underline-offset-4"
-            >
-              {email}
-            </a>
-          </p>
-          {settings?.telefon && (
-            <p>
-              <a
-                href={`tel:${settings.telefon.replace(/\s/g, "")}`}
-                className="text-accent hover:underline underline-offset-4"
-              >
-                {settings.telefon}
-              </a>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left */}
+          <div>
+            <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-sm">
+              Alle Werke sind verkäuflich. Schreiben Sie, welches Bild Sie
+              interessiert — Vjollca meldet sich persönlich bei Ihnen.
             </p>
-          )}
+            <div className="space-y-2 text-sm text-white/40">
+              <p>
+                <a href={`mailto:${email}`} className="hover:text-white transition-colors">
+                  {email}
+                </a>
+              </p>
+              {settings?.telefon && (
+                <p>
+                  <a
+                    href={`tel:${settings.telefon.replace(/\s/g, "")}`}
+                    className="hover:text-white transition-colors"
+                  >
+                    {settings.telefon}
+                  </a>
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Right: Form */}
+          <ContactForm dark />
         </div>
       </div>
     </div>

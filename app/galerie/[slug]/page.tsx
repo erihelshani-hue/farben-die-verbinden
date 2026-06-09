@@ -12,6 +12,13 @@ import ContactForm from "@/components/ContactForm";
 import ArtworkCard from "@/components/ArtworkCard";
 import FadeIn from "@/components/FadeIn";
 
+const CAT_COLORS: Record<string, string> = {
+  "baeume-natur": "#2E6B4F",
+  "abstrakt":     "#C03A78",
+  "maritim":      "#2B3FBF",
+  "tiere":        "#E9A820",
+};
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -27,8 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!artwork) return {};
   return {
     title: artwork.title,
-    description:
-      artwork.description ?? `${artwork.title} — ${artwork.technique ?? ""}`.trim(),
+    description: artwork.description ?? `${artwork.title} — ${artwork.technique ?? ""}`.trim(),
   };
 }
 
@@ -40,74 +46,89 @@ export default async function ArtworkDetailPage({ params }: Props) {
   if (!artwork) notFound();
 
   const related = await getRelatedArtworks(artwork.category, artwork._id);
-
   const imageUrl = urlFor(artwork.image).width(2000).fit("max").url();
+  const accentColor = (artwork.category ? CAT_COLORS[artwork.category] : null) ?? "#23252F";
 
   const details = [
     ["Technik", artwork.technique],
-    ["Maße", artwork.dimensions],
-    ["Jahr", artwork.year?.toString()],
+    ["Maße",    artwork.dimensions],
+    ["Jahr",    artwork.year?.toString()],
   ].filter(([, v]) => v) as [string, string][];
 
   return (
-    <article className="pt-20">
-      {/* Großes Bild */}
-      <div className="relative w-full h-[70vh] bg-ink">
-        <Image
-          src={imageUrl}
-          alt={artwork.title}
-          fill
-          sizes="100vw"
-          priority
-          className="object-contain"
-        />
+    <article className="pt-[72px]">
+      {/* Kategorie-Streifen + Bild */}
+      <div style={{ borderTop: `5px solid ${accentColor}` }}>
+        <div className="relative w-full h-[70vh] bg-ink">
+          <Image
+            src={imageUrl}
+            alt={artwork.title}
+            fill
+            sizes="100vw"
+            priority
+            className="object-contain"
+          />
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16 md:py-24">
         {/* Breadcrumb */}
         <nav
-          className="text-[12px] font-light uppercase tracking-[0.1em] text-stone mb-12"
+          className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-stone mb-12"
           aria-label="Brotkrumen"
         >
-          <Link href="/galerie" className="hover:text-accent transition-colors">
+          <Link href="/galerie" className="hover:text-ink transition-colors">
             Galerie
           </Link>
-          <span className="mx-2">/</span>
+          <span className="mx-2 text-line">·</span>
           <span className="text-ink">{artwork.title}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Links: Fakten */}
+          {/* Fakten */}
           <FadeIn from="left">
-            <h1 className="font-serif font-light text-4xl md:text-6xl text-ink mb-10 leading-tight">
+            {/* Kategorie-Badge */}
+            <div
+              className="h-[3px] w-10 mb-6"
+              style={{ background: accentColor }}
+            />
+            <h1
+              className="text-4xl md:text-5xl text-ink mb-10 leading-tight uppercase"
+              style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}
+            >
               {artwork.title}
             </h1>
-            <dl className="divide-y divide-line border-y border-line">
+            <dl className="border-y-[2px] border-ink divide-y-[1px] divide-line">
               {details.map(([label, value]) => (
                 <div key={label} className="flex justify-between py-4">
-                  <dt className="text-[12px] font-light uppercase tracking-[0.1em] text-stone">
+                  <dt className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-stone">
                     {label}
                   </dt>
-                  <dd className="text-base font-light text-ink">{value}</dd>
+                  <dd className="text-sm text-ink">{value}</dd>
                 </div>
               ))}
             </dl>
           </FadeIn>
 
-          {/* Rechts: Beschreibung + Anfrage */}
+          {/* Beschreibung + Anfrage */}
           <FadeIn from="right">
             {artwork.description && (
-              <p className="font-serif italic font-light text-2xl leading-[1.5] text-ink mb-12">
+              <p
+                className="italic text-xl md:text-2xl leading-[1.5] text-ink mb-12"
+                style={{ borderLeft: `3px solid ${accentColor}`, paddingLeft: "1.25rem" }}
+              >
                 {artwork.description}
               </p>
             )}
-            <div className="border-t border-line pt-10">
-              <p className="text-[11px] font-light uppercase tracking-[0.3em] text-accent mb-2">
+            <div className="border-t-[2.5px] border-ink pt-10">
+              <p
+                className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] mb-2"
+                style={{ color: accentColor }}
+              >
                 Preis auf Anfrage
               </p>
-              <p className="text-sm font-light text-stone mb-8">
-                Füllen Sie das Formular aus — wir melden uns schnellstmöglich bei
-                Ihnen.
+              <p className="text-sm text-stone mb-8">
+                Füllen Sie das Formular aus — wir melden uns schnellstmöglich bei Ihnen.
               </p>
               <ContactForm artworkTitle={artwork.title} />
             </div>
@@ -116,13 +137,13 @@ export default async function ArtworkDetailPage({ params }: Props) {
 
         {/* Weitere Werke */}
         {related.length > 0 && (
-          <section className="mt-28 md:mt-40">
+          <section className="mt-28 md:mt-36">
             <FadeIn>
-              <h2 className="text-[11px] font-light uppercase tracking-[0.3em] text-accent mb-12 text-center">
-                Weitere Werke
-              </h2>
+              <div className="section-head">
+                <h2>Weitere Werke</h2>
+              </div>
             </FadeIn>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {related.map((a, i) => (
                 <FadeIn key={a._id} delay={i * 0.08}>
                   <ArtworkCard artwork={a} />

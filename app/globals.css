@@ -1,16 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  /* Farbpalette — museale Galerie */
-  --color-canvas: #F7F3EE;   /* warmes Off-White, fast Leinen */
-  --color-ink: #1A1714;      /* warmes Fast-Schwarz */
-  --color-accent: #C8703A;   /* warmes Terrakotta-Orange */
-  --color-stone: #8C7B6B;    /* warmes Taupe/Graubraun */
-  --color-line: #E8E0D5;     /* feine Trennlinien auf Canvas */
+  /* ── Atelier Reshani — Farbpalette ─────────────────────── */
+  --color-canvas:      #F2F3EE;   /* Leinwand — kühles Weiß         */
+  --color-ink:         #23252F;   /* Kohle — Vorzeichnung           */
+  --color-accent:      #C03A78;   /* Krapp — Primärakzent (Magenta) */
+  --color-ultramarin:  #2B3FBF;   /* Maritim / Hero                 */
+  --color-sonne:       #E9A820;   /* Tiere / Licht                  */
+  --color-tanne:       #2E6B4F;   /* Bäume & Natur                  */
+  --color-stone:       #6B7180;   /* Mittelgrau für Sekundärtext    */
+  --color-line:        #D4D8D3;   /* kühle Trennlinie               */
 
-  /* Typografie — referenziert die per next/font geladenen Variablen (siehe layout.tsx) */
-  --font-serif: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-dmsans), system-ui, sans-serif;
+  /* ── Typografie ─────────────────────────────────────────── */
+  --font-display: var(--font-syne),    sans-serif;   /* Syne — Haltung     */
+  --font-sans:    var(--font-archivo), system-ui, sans-serif; /* Archivo — Präzision */
+  /* Rückwärtskompatibilität: bestehende font-serif-Klassen → Display */
+  --font-serif:   var(--font-syne), sans-serif;
+
+  /* ── Abstände — Takt: 1 Pinselbreit = 28 px ─────────────── */
+  --spacing-takt:  1.75rem;
 }
 
 @layer base {
@@ -23,14 +31,16 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Alle Display-Elemente: Syne */
   h1, h2, h3, h4 {
-    font-family: var(--font-serif);
-    font-weight: 300;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: #fff;
+    background-color: var(--color-sonne);
+    color: var(--color-ink);
   }
 
   :focus-visible {
@@ -40,11 +50,43 @@
   }
 }
 
-/* Respektiere die Systemeinstellung „Bewegung reduzieren" */
+/* ── Hilfsmuster ─────────────────────────────────────────────── */
+@layer components {
+  /* Sektionskopf: Titel + optionale Metainfo, durch Linie getrennt */
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.75rem;
+    border-bottom: 2.5px solid var(--color-ink);
+    padding-bottom: 0.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    letter-spacing: -0.025em;
+    line-height: 1;
+  }
+
+  /* Kategorie-Farbbadge */
+  .cat-badge {
+    display: inline-block;
+    height: 3px;
+    width: 2.5rem;
+    border-radius: 999px;
+  }
+  .cat-badge--baeume { background: var(--color-tanne); }
+  .cat-badge--abstrakt { background: var(--color-accent); }
+  .cat-badge--maritim { background: var(--color-ultramarin); }
+  .cat-badge--tiere { background: var(--color-sonne); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

@@ -5,17 +5,21 @@ import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import type { Artwork } from "@/sanity/lib/queries";
 
+const CAT_COLORS: Record<string, string> = {
+  "baeume-natur": "#2E6B4F",
+  "abstrakt":     "#C03A78",
+  "maritim":      "#2B3FBF",
+  "tiere":        "#E9A820",
+};
+
 interface Props {
   artwork: Artwork;
   priority?: boolean;
 }
 
 export default function ArtworkCard({ artwork, priority = false }: Props) {
-  const imageUrl = urlFor(artwork.image)
-    .width(900)
-    .height(1100)
-    .fit("crop")
-    .url();
+  const imageUrl = urlFor(artwork.image).width(900).height(1100).fit("crop").url();
+  const accentColor = (artwork.category ? CAT_COLORS[artwork.category] : null) ?? "#23252F";
 
   return (
     <Link
@@ -23,24 +27,35 @@ export default function ArtworkCard({ artwork, priority = false }: Props) {
       className="group block"
       aria-label={artwork.title}
     >
-      <div className="relative overflow-hidden aspect-[4/5] bg-line shadow-[0_8px_30px_rgba(26,23,20,0.08)]">
+      {/* Kategorie-Farbstreifen oben */}
+      <div
+        className="h-[3px] w-full transition-all duration-300 group-hover:h-[5px]"
+        style={{ background: accentColor }}
+      />
+
+      <div className="relative overflow-hidden aspect-[4/5] bg-line border-[2.5px] border-t-0 border-ink">
         <Image
           src={imageUrl}
           alt={artwork.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={priority}
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute inset-x-0 bottom-0 p-6 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-          <h3 className="font-serif font-light text-2xl text-white leading-tight">
+        {/* Hover-Overlay */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+          style={{ background: `color-mix(in srgb, ${accentColor} 85%, transparent)` }}
+        />
+        <div className="absolute inset-x-0 bottom-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
+          <h3
+            className="text-white text-2xl leading-tight uppercase"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.02em" }}
+          >
             {artwork.title}
           </h3>
           {artwork.technique && (
-            <p className="mt-1 text-[12px] font-light uppercase tracking-[0.15em] text-white/70">
-              {artwork.technique}
-              {artwork.year ? ` · ${artwork.year}` : ""}
+            <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-white/80">
+              {artwork.technique}{artwork.year ? ` · ${artwork.year}` : ""}
             </p>
           )}
         </div>

@@ -12,14 +12,12 @@ import Hero from "@/components/Hero";
 
 export const revalidate = 3600;
 
-// Platzhalter-Texte, solange in Sanity noch nichts gepflegt ist.
 const FALLBACK = {
   einleitung:
     "Abstrakte und expressionistische Gemälde von Vjollca Reshani. Jedes Bild erzählt eine Geschichte aus Farben, Emotionen und Kreativität.",
   statement:
     "Farben kennen keine Grenzen. Zusammen entstehen Bilder voller Leben, Hoffnung und Energie.",
-  bio:
-    "Vjollca Reshani malt seit über einem Jahrzehnt und hat eine unverwechselbare Bildsprache entwickelt, in der Natur, Licht und intensive Farben miteinander in Dialog treten.",
+  bio: "Vjollca Reshani malt seit vielen Jahren und hat eine unverwechselbare Bildsprache entwickelt, in der Natur, Licht und intensive Farben miteinander in Dialog treten.",
 };
 
 export default async function HomePage() {
@@ -30,9 +28,9 @@ export default async function HomePage() {
   ]);
 
   const heroImage = featured[0]?.image
-    ? urlFor(featured[0].image).width(2000).height(2400).fit("crop").url()
+    ? urlFor(featured[0].image).width(800).height(1066).fit("crop").url()
     : artist?.photo
-      ? urlFor(artist.photo).width(2000).height(2400).fit("crop").url()
+      ? urlFor(artist.photo).width(800).height(1066).fit("crop").url()
       : undefined;
 
   const statement = artist?.statement ?? FALLBACK.statement;
@@ -47,83 +45,102 @@ export default async function HomePage() {
         imageUrl={heroImage}
       />
 
-      {/* Statement / Story */}
-      <section className="px-6 py-28 md:py-40">
-        <div className="max-w-3xl mx-auto text-center">
-          <FadeIn>
-            <p className="font-serif italic font-light text-3xl md:text-4xl leading-[1.4] text-ink">
-              „{statement}"
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <p className="mt-10 text-lg font-light leading-relaxed text-stone">
-              {intro}
-            </p>
-          </FadeIn>
-        </div>
+      {/* ── Manifest ───────────────────────────────────────────── */}
+      <section className="px-6 lg:px-14 py-24 md:py-36">
+        <FadeIn className="max-w-4xl ml-auto">
+          <blockquote
+            className="leading-[1.2]"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: "clamp(1.5rem, 4vw, 3rem)",
+              letterSpacing: "-0.015em",
+            }}
+          >
+            „Farben kennen{" "}
+            <mark style={{ background: "var(--color-ultramarin)", color: "var(--color-canvas)", padding: "0 0.1em", boxDecorationBreak: "clone" }}>
+              keine Grenzen
+            </mark>
+            . Jede Farbe ist einzigartig und schön. Zusammen entstehen Bilder voller{" "}
+            <mark style={{ background: "var(--color-sonne)", color: "var(--color-ink)", padding: "0 0.1em", boxDecorationBreak: "clone" }}>
+              Leben, Hoffnung und Energie
+            </mark>
+            . Meine Kunst soll Menschen verbinden und zeigen, dass{" "}
+            <mark style={{ background: "var(--color-accent)", color: "var(--color-canvas)", padding: "0 0.1em", boxDecorationBreak: "clone" }}>
+              Vielfalt unsere Stärke ist
+            </mark>
+            ."
+          </blockquote>
+          <figcaption className="mt-6 text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-stone">
+            — {artist?.name ?? "Vjollca Reshani"}, Botschaft der Ausstellung
+          </figcaption>
+        </FadeIn>
+
+        <FadeIn delay={0.1} className="max-w-xl mt-10">
+          <p className="text-base leading-relaxed text-stone">{intro}</p>
+        </FadeIn>
       </section>
 
-      {/* Ausgewählte Werke */}
+      {/* ── Ausgewählte Werke ──────────────────────────────────── */}
       {featured.length > 0 && (
-        <section className="px-6 lg:px-10 pb-28 md:pb-40">
-          <div className="max-w-7xl mx-auto">
-            <FadeIn className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-14">
-              <h2 className="text-[11px] font-light uppercase tracking-[0.3em] text-accent">
-                Ausgewählte Werke
-              </h2>
+        <section className="px-6 lg:px-14 pb-24 md:pb-36">
+          <FadeIn>
+            <div className="section-head">
+              <h2>Ausgewählte Werke</h2>
               <Link
                 href="/galerie"
-                className="text-[13px] font-light uppercase tracking-[0.1em] text-ink/70 hover:text-accent transition-colors"
+                className="ml-auto text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-stone hover:text-ink transition-colors"
               >
-                Alle Werke ansehen →
+                Alle Werke →
               </Link>
-            </FadeIn>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-              {featured.slice(0, 6).map((artwork, i) => (
-                <FadeIn key={artwork._id} delay={i * 0.08}>
-                  <ArtworkCard artwork={artwork} priority={i < 3} />
-                </FadeIn>
-              ))}
             </div>
+          </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {featured.slice(0, 6).map((artwork, i) => (
+              <FadeIn key={artwork._id} delay={i * 0.07}>
+                <ArtworkCard artwork={artwork} priority={i < 3} />
+              </FadeIn>
+            ))}
           </div>
         </section>
       )}
 
-      {/* Über die Künstlerin — Teaser */}
-      <section className="px-6 lg:px-10 pb-28 md:pb-40">
+      {/* ── Künstlerin Teaser ──────────────────────────────────── */}
+      <section className="px-6 lg:px-14 pb-24 md:pb-36">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-16 items-center">
           <FadeIn from="left" className="md:col-span-3">
             {artist?.photo ? (
-              <div className="relative aspect-[4/3] overflow-hidden shadow-[0_10px_40px_rgba(26,23,20,0.12)]">
+              <div
+                className="relative aspect-[4/3] overflow-hidden border-[2.5px] border-ink"
+                style={{ boxShadow: "8px 8px 0 var(--color-ink)" }}
+              >
                 <Image
-                  src={urlFor(artist.photo)
-                    .width(1400)
-                    .height(1050)
-                    .fit("crop")
-                    .url()}
+                  src={urlFor(artist.photo).width(1400).height(1050).fit("crop").url()}
                   alt={`Porträt von ${artist.name}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 60vw"
-                  className="object-cover [filter:grayscale(100%)_sepia(18%)]"
+                  className="object-cover"
                 />
               </div>
             ) : (
-              <div className="aspect-[4/3] bg-line" />
+              <div className="aspect-[4/3] bg-line border-[2.5px] border-ink" />
             )}
           </FadeIn>
           <FadeIn from="right" className="md:col-span-2">
-            <p className="text-[11px] font-light uppercase tracking-[0.3em] text-accent mb-5">
-              Die Künstlerin
-            </p>
-            <h2 className="font-serif font-light text-4xl md:text-5xl text-ink mb-6">
+            <div
+              className="h-[3px] w-12 mb-6"
+              style={{ background: "linear-gradient(90deg, var(--color-tanne) 0 25%, var(--color-accent) 25% 50%, var(--color-ultramarin) 50% 75%, var(--color-sonne) 75%)" }}
+            />
+            <h2
+              className="text-4xl md:text-5xl text-ink mb-6 uppercase"
+              style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}
+            >
               {artist?.name ?? "Vjollca Reshani"}
             </h2>
-            <p className="text-base font-light leading-relaxed text-stone mb-8">
-              {FALLBACK.bio}
-            </p>
+            <p className="text-base leading-relaxed text-stone mb-8">{FALLBACK.bio}</p>
             <Link
               href="/kuenstlerin"
-              className="inline-block text-[13px] font-light uppercase tracking-[0.1em] text-ink border-b border-accent pb-1 hover:text-accent transition-colors"
+              className="inline-block text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ink border-b-[2.5px] border-ink pb-1 hover:border-accent hover:text-accent transition-colors"
             >
               Mehr erfahren →
             </Link>
@@ -131,18 +148,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-ink px-6 py-28 md:py-36">
+      {/* ── CTA ───────────────────────────────────────────────── */}
+      <section className="bg-ink px-6 lg:px-14 py-28 md:py-36">
         <FadeIn className="max-w-2xl mx-auto text-center">
-          <h2 className="font-serif font-light text-4xl md:text-5xl text-white mb-6">
+          <h2
+            className="text-4xl md:text-5xl text-white mb-6 uppercase"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}
+          >
             Interesse an einem Werk?
           </h2>
-          <p className="text-base font-light text-white/60 mb-10">
+          <p className="text-base text-white/60 mb-10">
+            Alle Werke sind verkäuflich — Preis auf Anfrage.
             Kontaktieren Sie uns für Anfragen und Ausstellungsinformationen.
           </p>
           <Link
             href="/kontakt"
-            className="inline-block px-10 py-4 bg-accent text-white font-light uppercase tracking-[0.15em] text-[13px] hover:bg-[#b5612f] transition-colors"
+            className="inline-block rounded-full px-10 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5"
+            style={{ background: "var(--color-sonne)", color: "var(--color-ink)" }}
           >
             Anfrage stellen
           </Link>
