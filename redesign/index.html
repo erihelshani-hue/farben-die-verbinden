@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farben die verbinden — Vjollca Reshani</title>
+<meta name="description" content="Ausstellung von Vjollca Reshani. Abstrakte und expressionistische Malerei — Farben kennen keine Grenzen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ATELIER RESHANI — Design-Token-System
+   ============================================================ */
+:root {
+  /* Palette */
+  --leinwand:   #F2F3EE;   /* kühles Leinwandweiß, Grundträger      */
+  --kohle:      #23252F;   /* Vorzeichnung, Text                    */
+  --ultramarin: #2B3FBF;   /* Maritim                               */
+  --krapp:      #C03A78;   /* Abstrakt                              */
+  --sonne:      #E9A820;   /* Tiere / Licht                         */
+  --tanne:      #2E6B4F;   /* Bäume & Natur                         */
+
+  /* Typografie */
+  --display: "Syne", sans-serif;
+  --body:    "Archivo", sans-serif;
+
+  /* Takt: 28px = ein Pinselbreit */
+  --takt:   1.75rem;
+  --takt-h: 0.875rem;             /* halber Takt  */
+  --takt-2: calc(var(--takt)*2);
+  --takt-3: calc(var(--takt)*3);
+  --takt-5: calc(var(--takt)*5);
+
+  --line: 2.5px;                  /* Fadenstärke */
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--body);
+  background: var(--leinwand);
+  color: var(--kohle);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--sonne); color: var(--kohle); }
+
+/* ============================================================
+   DER FADEN — Signature-Moment
+   ============================================================ */
+#faden-svg {
+  position:absolute; top:0; left:0;
+  width:100%; pointer-events:none; z-index:1;
+}
+#faden-path {
+  fill:none;
+  stroke:url(#faden-gradient);
+  stroke-width:var(--line);
+  stroke-linecap:round;
+}
+.faden-node { fill:var(--kohle); }
+
+main { position:relative; z-index:2; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+header {
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; justify-content:space-between; align-items:center;
+  padding: var(--takt-h) var(--takt);
+  background: color-mix(in srgb, var(--leinwand) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: var(--line) solid var(--kohle);
+}
+.wordmark {
+  font-family:var(--display); font-weight:800; font-size:1.1rem;
+  text-decoration:none; color:var(--kohle); letter-spacing:-0.02em;
+}
+.wordmark em { font-style:normal; color:var(--krapp); }
+nav { display:flex; gap:var(--takt); }
+nav a {
+  font-size:0.85rem; font-weight:500; text-transform:uppercase;
+  letter-spacing:0.12em; text-decoration:none; color:var(--kohle);
+  position:relative;
+}
+nav a::after {
+  content:""; position:absolute; left:0; bottom:-4px;
+  width:100%; height:2px; background:currentColor;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .35s cubic-bezier(.7,0,.2,1);
+}
+nav a:hover::after { transform:scaleX(1); }
+nav a:nth-child(1):hover { color:var(--tanne); }
+nav a:nth-child(2):hover { color:var(--krapp); }
+nav a:nth-child(3):hover { color:var(--ultramarin); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height:100svh;
+  display:flex; flex-direction:column; justify-content:center;
+  padding: var(--takt-5) var(--takt) var(--takt-3);
+}
+.hero h1 {
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(3rem, 12vw, 11rem);
+  line-height:0.95; letter-spacing:-0.03em;
+  text-transform:uppercase;
+}
+.hero h1 span { display:block; opacity:0; transform:translateY(0.4em); animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+.hero h1 .w1 { color:var(--ultramarin); animation-delay:.1s; }
+.hero h1 .w2 { color:var(--kohle); padding-left:clamp(2rem,12vw,11rem); animation-delay:.28s; }
+.hero h1 .w3 { color:var(--krapp); animation-delay:.46s; }
+@keyframes rise { to { opacity:1; transform:none; } }
+
+.hero-meta {
+  margin-top:var(--takt-2);
+  display:flex; flex-wrap:wrap; gap:var(--takt-h) var(--takt-2);
+  font-size:0.85rem; text-transform:uppercase; letter-spacing:0.14em;
+  border-top:var(--line) solid var(--kohle);
+  padding-top:var(--takt-h);
+  max-width:46rem;
+}
+.hero-meta strong { font-weight:600; }
+.hero-intro {
+  margin-top:var(--takt);
+  max-width:34rem; font-size:1.15rem;
+}
+
+/* ============================================================
+   MANIFEST
+   ============================================================ */
+.manifest { padding:var(--takt-5) var(--takt); }
+.manifest blockquote {
+  font-family:var(--display); font-weight:700;
+  font-size:clamp(1.5rem, 4.2vw, 3.2rem);
+  line-height:1.18; letter-spacing:-0.015em;
+  max-width:56rem; margin-left:auto;
+}
+.manifest .mark { box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:0 .12em; }
+.manifest .m1 { background:var(--ultramarin); color:var(--leinwand); }
+.manifest .m2 { background:var(--krapp); color:var(--leinwand); }
+.manifest .m3 { background:var(--sonne); color:var(--kohle); }
+.manifest figcaption {
+  max-width:56rem; margin:var(--takt) 0 0 auto;
+  font-size:0.85rem; text-transform:uppercase; letter-spacing:0.14em;
+}
+
+/* ============================================================
+   WERKVERZEICHNIS
+   ============================================================ */
+.werke { padding:var(--takt-3) var(--takt) var(--takt-5); }
+.section-head {
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--takt-h) var(--takt);
+  border-bottom:var(--line) solid var(--kohle);
+  padding-bottom:var(--takt-h); margin-bottom:var(--takt-2);
+}
+.section-head h2 {
+  font-family:var(--display); font-weight:800; text-transform:uppercase;
+  font-size:clamp(1.8rem,5vw,3.4rem); letter-spacing:-0.02em;
+}
+.section-head .count { font-size:0.9rem; letter-spacing:0.14em; text-transform:uppercase; }
+
+.filters { display:flex; flex-wrap:wrap; gap:var(--takt-h); margin-bottom:var(--takt-2); }
+.filters button {
+  font-family:var(--body); font-size:0.85rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:0.1em;
+  padding:0.5em 1.1em; cursor:pointer;
+  background:transparent; color:var(--kohle);
+  border:var(--line) solid var(--kohle); border-radius:999px;
+  transition:background .25s, color .25s, transform .15s;
+}
+.filters button:hover { transform:translateY(-2px); }
+.filters button[aria-pressed="true"] { background:var(--kohle); color:var(--leinwand); }
+.filters button[data-cat="baeume-natur"][aria-pressed="true"] { background:var(--tanne); border-color:var(--tanne); }
+.filters button[data-cat="abstrakt"][aria-pressed="true"]     { background:var(--krapp); border-color:var(--krapp); }
+.filters button[data-cat="maritim"][aria-pressed="true"]      { background:var(--ultramarin); border-color:var(--ultramarin); }
+.filters button[data-cat="tiere"][aria-pressed="true"]        { background:var(--sonne); border-color:var(--sonne); color:var(--kohle); }
+
+.katalog { display:flex; flex-direction:column; gap:var(--takt-3); }
+
+.werk {
+  width:min(30rem, 100%);
+  opacity:0; transform:translateY(2rem);
+  transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.werk.sichtbar { opacity:1; transform:none; }
+.werk:nth-child(odd)  { align-self:flex-start; }
+.werk:nth-child(even) { align-self:flex-end; }
+.werk.hidden { display:none; }
+
+.werk-akkord {
+  display:flex; align-items:flex-end; gap:6px;
+  height:11rem; padding:var(--takt-h);
+  background:#fff;
+  border:var(--line) solid var(--kohle);
+}
+.werk-akkord i {
+  display:block; flex:1; border-radius:2px 2px 0 0;
+  transition:flex .45s cubic-bezier(.7,0,.2,1), height .45s cubic-bezier(.7,0,.2,1);
+}
+.werk:hover .werk-akkord i:hover { flex:2.6; }
+.werk-nr {
+  font-family:var(--display); font-weight:700; font-size:0.8rem;
+  letter-spacing:0.14em;
+  display:inline-block; margin-top:var(--takt-h);
+  padding:0.15em 0.6em; border:var(--line) solid var(--kohle); border-radius:999px;
+}
+.werk h3 {
+  font-family:var(--display); font-weight:700;
+  font-size:1.45rem; letter-spacing:-0.01em; line-height:1.15;
+  margin-top:0.5rem;
+}
+.werk-daten {
+  font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em;
+  margin-top:0.35rem;
+}
+.werk-daten b { font-weight:600; }
+.werk p.beschreibung { margin-top:0.6rem; font-size:0.98rem; max-width:28rem; }
+.werk-hinweis {
+  display:inline-block; margin-top:0.6rem;
+  font-size:0.78rem; font-style:italic; opacity:0.65;
+}
+.werk .anfrage {
+  display:inline-block; margin-top:0.8rem;
+  font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:0.12em;
+  color:var(--kohle); text-decoration:none;
+  border-bottom:var(--line) solid currentColor;
+  transition:color .25s;
+}
+.werk[data-cat="baeume-natur"] .anfrage:hover { color:var(--tanne); }
+.werk[data-cat="abstrakt"]     .anfrage:hover { color:var(--krapp); }
+.werk[data-cat="maritim"]      .anfrage:hover { color:var(--ultramarin); }
+.werk[data-cat="tiere"]        .anfrage:hover { color:var(--sonne); }
+
+/* ============================================================
+   KÜNSTLERIN
+   ============================================================ */
+.kuenstlerin { padding:var(--takt-5) var(--takt); }
+.kuenstlerin-grid {
+  display:grid; gap:var(--takt-2);
+  grid-template-columns:1fr;
+  max-width:64rem;
+}
+.statement {
+  font-family:var(--display); font-weight:700;
+  font-size:clamp(1.3rem,3vw,2rem); line-height:1.3;
+}
+.statement::before {
+  content:""; display:block; width:var(--takt-3); height:var(--takt-h);
+  margin-bottom:var(--takt-h);
+  background:linear-gradient(90deg, var(--tanne) 0 25%, var(--krapp) 25% 50%, var(--ultramarin) 50% 75%, var(--sonne) 75%);
+}
+.bio p + p { margin-top:var(--takt-h); }
+.bio .name { font-weight:600; }
+
+/* ============================================================
+   KONTAKT
+   ============================================================ */
+.kontakt {
+  padding:var(--takt-5) var(--takt);
+  background:var(--kohle); color:var(--leinwand);
+}
+.kontakt .section-head { border-color:var(--leinwand); }
+.kontakt-grid {
+  display:grid; gap:var(--takt-2); grid-template-columns:1fr; max-width:64rem;
+}
+.kontakt p.lead { max-width:30rem; }
+.kontakt form { display:grid; gap:var(--takt-h); max-width:30rem; }
+.kontakt label {
+  font-size:0.8rem; text-transform:uppercase; letter-spacing:0.12em;
+  display:grid; gap:0.4rem;
+}
+.kontakt input, .kontakt textarea {
+  font-family:var(--body); font-size:1rem;
+  background:transparent; color:var(--leinwand);
+  border:none; border-bottom:var(--line) solid var(--leinwand);
+  padding:0.5em 0; outline:none;
+  transition:border-color .25s;
+}
+.kontakt input:focus, .kontakt textarea:focus { border-color:var(--sonne); }
+.kontakt textarea { resize:vertical; min-height:6rem; }
+.kontakt button[type="submit"] {
+  justify-self:start; cursor:pointer;
+  font-family:var(--display); font-weight:700; font-size:1rem;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:var(--kohle); background:var(--sonne);
+  border:none; border-radius:999px;
+  padding:0.8em 2em;
+  transition:transform .15s, background .25s;
+}
+.kontakt button[type="submit"]:hover { transform:translateY(-2px); background:var(--leinwand); }
+.form-note { font-size:0.85rem; opacity:0.75; }
+
+footer {
+  margin-top:var(--takt-3); padding-top:var(--takt);
+  border-top:1px solid color-mix(in srgb, var(--leinwand) 30%, transparent);
+  display:flex; flex-wrap:wrap; gap:var(--takt-h) var(--takt-2);
+  font-size:0.8rem; text-transform:uppercase; letter-spacing:0.12em;
+}
+
+/* ============================================================
+   RESPONSIVE & MOTION
+   ============================================================ */
+@media (min-width:760px) {
+  .hero, .manifest, .werke, .kuenstlerin, .kontakt { padding-left:var(--takt-3); padding-right:var(--takt-3); }
+  .kuenstlerin-grid { grid-template-columns:1.1fr 1fr; }
+  .kontakt-grid { grid-template-columns:1fr 1.2fr; }
+}
+@media (max-width:560px) {
+  nav { gap:var(--takt-h); }
+  nav a { font-size:0.72rem; }
+  .werk:nth-child(even) { align-self:flex-start; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  #faden-svg { display:none; }
+  .hero h1 span { animation:none; opacity:1; transform:none; }
+  .werk { opacity:1; transform:none; transition:none; }
+}
+</style>
+</head>
+<body>
+
+<svg id="faden-svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="faden-gradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0"    stop-color="#2B3FBF"/>
+      <stop offset="0.3"  stop-color="#C03A78"/>
+      <stop offset="0.55" stop-color="#2E6B4F"/>
+      <stop offset="0.8"  stop-color="#E9A820"/>
+      <stop offset="1"    stop-color="#F2F3EE"/>
+    </linearGradient>
+  </defs>
+  <path id="faden-path" d=""/>
+</svg>
+
+<header>
+  <a class="wordmark" href="#top">Farben <em>die</em> verbinden</a>
+  <nav>
+    <a href="#werke">Werke</a>
+    <a href="#kuenstlerin">Künstlerin</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>
+      <span class="w1">Farben</span>
+      <span class="w2">die</span>
+      <span class="w3" data-faden>verbinden</span>
+    </h1>
+    <div class="hero-meta">
+      <span><strong>Vjollca Reshani</strong> — Malerei</span>
+      <span>13 Werke · Acryl, Öl, Aquarell, Mischtechnik</span>
+      <span>2021 – 2024</span>
+    </div>
+    <p class="hero-intro">
+      Abstrakte und expressionistische Gemälde. Jedes Bild erzählt eine Geschichte
+      aus Farben, Emotionen und Kreativität — ein Faden, der alles verbindet.
+    </p>
+  </section>
+
+  <!-- MANIFEST -->
+  <section class="manifest">
+    <figure>
+      <blockquote data-faden>
+        „Farben kennen <span class="mark m1">keine Grenzen</span>.
+        Jede Farbe ist einzigartig und schön. Zusammen entstehen Bilder voller
+        <span class="mark m3">Leben, Hoffnung und Energie</span>.
+        Meine Kunst soll Menschen verbinden und zeigen, dass
+        <span class="mark m2">Vielfalt unsere Stärke ist</span>.“
+      </blockquote>
+      <figcaption>— Botschaft der Ausstellung</figcaption>
+    </figure>
+  </section>
+
+  <!-- WERKVERZEICHNIS -->
+  <section class="werke" id="werke">
+    <div class="section-head">
+      <h2>Werkverzeichnis</h2>
+      <span class="count" id="werk-count">13 Werke</span>
+    </div>
+
+    <div class="filters" role="group" aria-label="Werke filtern">
+      <button data-cat="alle" aria-pressed="true">Alle</button>
+      <button data-cat="baeume-natur" aria-pressed="false">Bäume &amp; Natur</button>
+      <button data-cat="abstrakt" aria-pressed="false">Abstrakt</button>
+      <button data-cat="maritim" aria-pressed="false">Maritim</button>
+      <button data-cat="tiere" aria-pressed="false">Tiere</button>
+    </div>
+
+    <div class="katalog" id="katalog"><!-- per JS gefüllt --></div>
+  </section>
+
+  <!-- KÜNSTLERIN -->
+  <section class="kuenstlerin" id="kuenstlerin">
+    <div class="section-head">
+      <h2 data-faden>Die Künstlerin</h2>
+    </div>
+    <div class="kuenstlerin-grid">
+      <p class="statement">
+        „Meine Kunst zeigt, dass jede Farbe ihren Platz hat. Gemeinsam erschaffen
+        Farben Harmonie, Vielfalt und Schönheit — so wie die Menschen auf unserer Welt.“
+      </p>
+      <div class="bio">
+        <p><span class="name">Vjollca Reshani</span> malt seit vielen Jahren und hat
+        eine unverwechselbare Bildsprache entwickelt, in der Natur, Licht und intensive
+        Farben miteinander in Dialog treten.</p>
+        <p>In ihrer Ausstellung <em>Farben die verbinden</em> begegnen sich Bäume,
+        Wasser und Licht — verwandelt durch Farbe in etwas Universelles. Jedes Werk
+        lädt dazu ein, innezuhalten und zu fühlen, was Worte oft nicht ausdrücken können.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section class="kontakt" id="kontakt">
+    <div class="section-head">
+      <h2 data-faden>Anfrage</h2>
+    </div>
+    <div class="kontakt-grid">
+      <div>
+        <p class="lead">
+          Alle Werke sind verkäuflich — <strong>Preis auf Anfrage</strong>.
+          Schreiben Sie, welches Bild Sie interessiert, und Vjollca meldet
+          sich persönlich bei Ihnen.
+        </p>
+      </div>
+      <form id="anfrage-form">
+        <label>Name
+          <input type="text" name="name" required autocomplete="name">
+        </label>
+        <label>E-Mail
+          <input type="email" name="email" required autocomplete="email">
+        </label>
+        <label>Nachricht / Werk
+          <textarea name="nachricht" required placeholder="z. B. Nr. 07 — Farben die verbinden"></textarea>
+        </label>
+        <button type="submit">Anfrage senden</button>
+        <p class="form-note" id="form-note">Ihre Anfrage geht direkt an kontakt@farben-die-verbinden.de.</p>
+      </form>
+    </div>
+    <footer>
+      <span>© 2026 Vjollca Reshani</span>
+      <span>Farben die verbinden</span>
+      <span>kontakt@farben-die-verbinden.de</span>
+    </footer>
+  </section>
+
+</main>
+
+<script>
+/* ============================================================
+   WERKDATEN — jeder Eintrag trägt seinen Farbakkord:
+   handgewählte Pigmente, wie Probestriche am Atelierrand.
+   ============================================================ */
+const WERKE = [
+  { t:"Lebensbaum im Morgenlicht", cat:"baeume-natur", tech:"Acryl", dim:"80 × 60 cm", jahr:2023,
+    d:"Ein leuchtender Baum, dessen Äste sich wie offene Hände dem Licht entgegenstrecken.",
+    akkord:["#E9C46A","#5F8D4E","#2E6B4F"] },
+  { t:"Herbstwald in Flammen", cat:"baeume-natur", tech:"Öl", dim:"100 × 70 cm", jahr:2022,
+    d:"Warme Rot- und Orangetöne verschmelzen zu einem Wald voller Energie.",
+    akkord:["#B33A1F","#E07A1F","#7A2E1A"] },
+  { t:"Wurzeln der Hoffnung", cat:"baeume-natur", tech:"Mischtechnik", dim:"70 × 50 cm", jahr:2024,
+    d:"Die Verbindung von Erde und Himmel, eingefangen in kräftigen Farbschichten.",
+    akkord:["#5B4233","#2E6B4F","#A8C53A"] },
+  { t:"Blühende Wiese", cat:"baeume-natur", tech:"Acryl", dim:"90 × 60 cm", jahr:2023,
+    d:"Ein Meer aus Blüten, jede Farbe ein eigener kleiner Moment des Glücks.",
+    akkord:["#C03A78","#E9A820","#6FA84F"] },
+  { t:"Stiller Birkenhain", cat:"baeume-natur", tech:"Aquarell", dim:"50 × 40 cm", jahr:2021,
+    d:"Zarte Birken in kühlem Licht — Ruhe und Klarheit.",
+    akkord:["#D8DFE3","#8FA8B5","#4D6A75"] },
+  { t:"Sonnenuntergang über dem Tal", cat:"baeume-natur", tech:"Öl", dim:"120 × 80 cm", jahr:2024,
+    d:"Ein Tal, das im letzten Licht des Tages in Gold getaucht wird.",
+    akkord:["#E9A820","#C03A78","#3A2E5B"] },
+  { t:"Farben die verbinden", cat:"abstrakt", tech:"Acryl", dim:"100 × 100 cm", jahr:2024,
+    d:"Das Herzstück der Ausstellung — Farben, die ineinanderfließen und eins werden.",
+    akkord:["#2B3FBF","#C03A78","#E9A820"] },
+  { t:"Tanz der Emotionen", cat:"abstrakt", tech:"Mischtechnik", dim:"80 × 80 cm", jahr:2023,
+    d:"Bewegung und Gefühl, festgehalten in spontanen Farbgesten.",
+    akkord:["#C03A78","#7A3FBF","#E05A4F"] },
+  { t:"Innere Landschaft", cat:"abstrakt", tech:"Acryl", dim:"70 × 90 cm", jahr:2022,
+    d:"Eine Reise nach innen, erzählt in Schichten aus Blau und Magenta.",
+    akkord:["#2B3FBF","#C03A78","#1B2A52"] },
+  { t:"Vielfalt", cat:"abstrakt", tech:"Mischtechnik", dim:"90 × 90 cm", jahr:2024,
+    d:"Viele einzelne Farbflächen, die zusammen ein harmonisches Ganzes bilden.",
+    akkord:["#E9A820","#2E6B4F","#C03A78","#2B3FBF"] },
+  { t:"Segel im Wind", cat:"maritim", tech:"Öl", dim:"100 × 70 cm", jahr:2023,
+    d:"Ein Segelboot auf bewegter See, getragen von Freiheit und Weite.",
+    akkord:["#2B3FBF","#8FB8D8","#E8ECEF"] },
+  { t:"Hafen bei Abenddämmerung", cat:"maritim", tech:"Acryl", dim:"80 × 60 cm", jahr:2022,
+    d:"Stille Boote im warmen Licht eines ruhigen Abends am Wasser.",
+    akkord:["#3A2E5B","#E07A1F","#2B3FBF"] },
+  { t:"Pferd in Bewegung", cat:"tiere", tech:"Öl", dim:"110 × 80 cm", jahr:2024,
+    d:"Die Kraft und Anmut eines galoppierenden Pferdes in lebendigen Farben.",
+    akkord:["#5B4233","#E9A820","#23252F"] },
+];
+
+const KAT_NAMEN = { "baeume-natur":"Bäume & Natur", "abstrakt":"Abstrakt", "maritim":"Maritim", "tiere":"Tiere" };
+
+/* Werkkarten rendern — Akkordstreifen mit deterministisch
+   variierenden Höhen, damit jede Karte ihren eigenen Rhythmus hat. */
+const katalog = document.getElementById("katalog");
+WERKE.forEach((w, i) => {
+  const nr = String(i + 1).padStart(2, "0");
+  const el = document.createElement("article");
+  el.className = "werk";
+  el.dataset.cat = w.cat;
+  const streifen = w.akkord.map((c, j) => {
+    const h = 55 + ((i * 7 + j * 13) % 40);
+    return `<i style="background:${c};height:${h}%"></i>`;
+  }).join("");
+  el.innerHTML = `
+    <div class="werk-akkord" data-faden role="img" aria-label="Farbakkord des Werks ${w.t}">${streifen}</div>
+    <span class="werk-nr">Nr. ${nr} · ${KAT_NAMEN[w.cat]}</span>
+    <h3>${w.t}</h3>
+    <p class="werk-daten"><b>${w.tech}</b> · ${w.dim} · ${w.jahr}</p>
+    <p class="beschreibung">${w.d}</p>
+    <span class="werk-hinweis">Farbakkord des Originals — Werkfotografie folgt.</span><br>
+    <a class="anfrage" href="#kontakt" data-werk="Nr. ${nr} — ${w.t}">Preis auf Anfrage ↓</a>`;
+  katalog.appendChild(el);
+});
+
+/* Anzahl + Filter */
+const countEl = document.getElementById("werk-count");
+document.querySelectorAll(".filters button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach(b => b.setAttribute("aria-pressed", "false"));
+    btn.setAttribute("aria-pressed", "true");
+    const cat = btn.dataset.cat;
+    let n = 0;
+    document.querySelectorAll(".werk").forEach(w => {
+      const zeigen = cat === "alle" || w.dataset.cat === cat;
+      w.classList.toggle("hidden", !zeigen);
+      if (zeigen) n++;
+    });
+    countEl.textContent = `${n} ${n === 1 ? "Werk" : "Werke"}`;
+    requestAnimationFrame(fadenBauen);
+  });
+});
+
+/* Klick auf „Preis auf Anfrage" füllt das Formular vor */
+katalog.addEventListener("click", e => {
+  const a = e.target.closest(".anfrage");
+  if (a) document.querySelector('textarea[name="nachricht"]').value = a.dataset.werk;
+});
+
+/* Scroll-Reveal der Karten */
+const beobachter = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("sichtbar"); beobachter.unobserve(en.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll(".werk").forEach(w => beobachter.observe(w));
+
+/* ============================================================
+   DER FADEN — eine Linie wird durch alle [data-faden]-Anker
+   gelegt und beim Scrollen gezeichnet.
+   ============================================================ */
+const svg = document.getElementById("faden-svg");
+const pfad = document.getElementById("faden-path");
+let fadenLaenge = 0;
+
+function fadenBauen() {
+  const anker = [...document.querySelectorAll("[data-faden]")]
+    .filter(el => el.offsetParent !== null);
+  if (anker.length < 2) return;
+
+  const punkte = anker.map(el => {
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width / 2 + window.scrollX, y: r.top + r.height / 2 + window.scrollY };
+  }).sort((a, b) => a.y - b.y);
+
+  const docH = document.documentElement.scrollHeight;
+  svg.setAttribute("width", document.documentElement.clientWidth);
+  svg.setAttribute("height", docH);
+  svg.style.height = docH + "px";
+
+  let d = `M ${punkte[0].x} ${punkte[0].y}`;
+  for (let i = 1; i < punkte.length; i++) {
+    const p0 = punkte[i - 1], p1 = punkte[i];
+    const dy = (p1.y - p0.y) / 2;
+    d += ` C ${p0.x} ${p0.y + dy}, ${p1.x} ${p1.y - dy}, ${p1.x} ${p1.y}`;
+  }
+  pfad.setAttribute("d", d);
+
+  [...svg.querySelectorAll(".faden-node")].forEach(n => n.remove());
+  punkte.forEach(p => {
+    const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("cx", p.x); c.setAttribute("cy", p.y); c.setAttribute("r", 4);
+    c.setAttribute("class", "faden-node");
+    svg.appendChild(c);
+  });
+
+  fadenLaenge = pfad.getTotalLength();
+  pfad.style.strokeDasharray = fadenLaenge;
+  fadenZeichnen();
+}
+
+function fadenZeichnen() {
+  if (!fadenLaenge) return;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const fortschritt = max > 0 ? Math.min(1, (window.scrollY + window.innerHeight * 0.6) / (max + window.innerHeight * 0.6)) : 1;
+  pfad.style.strokeDashoffset = fadenLaenge * (1 - fortschritt);
+}
+
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  window.addEventListener("scroll", () => requestAnimationFrame(fadenZeichnen), { passive: true });
+  window.addEventListener("resize", () => requestAnimationFrame(fadenBauen));
+  window.addEventListener("load", fadenBauen);
+  /* Hero-Animation verschiebt Anker — nach deren Ende neu vermessen */
+  setTimeout(fadenBauen, 1500);
+}
+
+/* Formular: Demo-Verhalten ohne Backend — öffnet den Mail-Client */
+document.getElementById("anfrage-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const betreff = encodeURIComponent("Anfrage: Farben die verbinden");
+  const text = encodeURIComponent(`Name: ${f.get("name")}\n\n${f.get("nachricht")}`);
+  location.href = `mailto:kontakt@farben-die-verbinden.de?subject=${betreff}&body=${text}`;
+  document.getElementById("form-note").textContent = "Ihr E-Mail-Programm öffnet sich — danke für Ihr Interesse!";
+});
+</script>
+</body>
+</html>
