@@ -39,7 +39,7 @@ export default async function HomePage() {
   return (
     <>
       <Hero
-        label="Kunstausstellung · 2025"
+        label="Kunstausstellung · 2026"
         title="Farben die verbinden"
         subtitle="Vjollca Reshani"
         imageUrl={heroImage}

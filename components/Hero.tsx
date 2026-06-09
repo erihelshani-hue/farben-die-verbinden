@@ -27,7 +27,7 @@ export default function Hero({ label, subtitle, imageUrl }: Props) {
       };
 
   return (
-    <section className="relative min-h-svh flex flex-col justify-center pt-[72px] overflow-hidden bg-canvas">
+    <section className="relative min-h-svh flex flex-col justify-center pt-[72px] overflow-x-hidden bg-canvas">
       <div className="max-w-7xl mx-auto w-full px-6 lg:px-14 grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center py-16 lg:py-24">
 
         {/* Left: Typografie */}
@@ -49,7 +49,7 @@ export default function Hero({ label, subtitle, imageUrl }: Props) {
               initial="hidden"
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.16, delayChildren: 0.2 } } }}
-              style={{ fontSize: "clamp(3.5rem, 13vw, 10.5rem)" }}
+              style={{ fontSize: "clamp(2.8rem, 9.5vw, 8.5rem)" }}
             >
               {WORDS.map(({ text, color, indent }) => (
                 <motion.span
