@@ -161,6 +161,9 @@ async function run() {
       "Ich lade Sie herzlich zu meiner Ausstellung ein. Die Ausstellung findet in der Schweizer Straße 5 in Sachsenhausen, Frankfurt am Main statt. Gezeigt werden über 30 meiner Bilder, die einen Einblick in mein aktuelles künstlerisches Projekt geben. Ich freue mich sehr über Ihren Besuch und darauf, meine Arbeiten persönlich mit Ihnen zu teilen.",
     botschaft:
       "Farben kennen keine Grenzen. Jede Farbe ist einzigartig und schön. Zusammen entstehen Bilder voller Leben, Hoffnung und Energie. Meine Kunst soll Menschen verbinden und zeigen, dass Vielfalt unsere Stärke ist.",
+    datum: "27. Juni 2026",
+    ort: "Sachsenhausen · Frankfurt",
+    adresse: "Schweizer Straße 5, 60594 Frankfurt am Main",
   });
 
   const artistPhotoId = await uploadLocalImage("vjollca-portrait.jpeg", "Vjollca Reshani Portrait");

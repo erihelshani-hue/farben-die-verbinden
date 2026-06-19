@@ -7,6 +7,8 @@ interface Props {
   label: string;
   title: string;
   subtitle: string;
+  datum?: string;
+  ort?: string;
   imageUrl?: string;
 }
 
@@ -16,7 +18,7 @@ const WORDS = [
   { text: "verbinden", color: "#C03A78", indent: false },
 ];
 
-export default function Hero({ label, subtitle, imageUrl }: Props) {
+export default function Hero({ label, subtitle, datum, ort, imageUrl }: Props) {
   const reduce = useReducedMotion();
 
   const wordVariant = reduce
@@ -67,15 +69,46 @@ export default function Hero({ label, subtitle, imageUrl }: Props) {
             </motion.div>
           </h1>
 
-          {/* Meta-Zeile */}
+          {/* Ausstellungs-Leiste: Datum + Ort prominent */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.85, duration: 0.7 }}
-            className="mt-8 pt-4 flex flex-wrap gap-x-8 gap-y-1 text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-ink border-t-[2.5px] border-ink"
+            className="mt-8 pt-5 border-t-[2.5px] border-ink"
           >
-            <span>{subtitle}</span>
-            <span>{label}</span>
+            <div className="flex flex-wrap items-stretch gap-x-10 gap-y-5">
+              {datum && (
+                <div>
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-stone mb-1">
+                    Ausstellung
+                  </p>
+                  <p
+                    className="text-xl sm:text-2xl uppercase leading-none"
+                    style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: "var(--color-accent)", letterSpacing: "-0.01em" }}
+                  >
+                    {datum}
+                  </p>
+                </div>
+              )}
+              {ort && (
+                <div className="sm:border-l-[2.5px] sm:border-ink sm:pl-10">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-stone mb-1">
+                    Ort
+                  </p>
+                  <p
+                    className="text-xl sm:text-2xl uppercase leading-none"
+                    style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: "var(--color-ultramarin)", letterSpacing: "-0.01em" }}
+                  >
+                    {ort}
+                  </p>
+                </div>
+              )}
+              <div className="sm:border-l-[2.5px] sm:border-ink sm:pl-10 flex items-end">
+                <p className="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-ink">
+                  {subtitle}
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
 

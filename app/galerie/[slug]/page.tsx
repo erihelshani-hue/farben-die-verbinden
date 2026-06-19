@@ -8,16 +8,10 @@ import {
   getRelatedArtworks,
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { accentFor } from "@/lib/accent";
 import ContactForm from "@/components/ContactForm";
 import ArtworkCard from "@/components/ArtworkCard";
 import FadeIn from "@/components/FadeIn";
-
-const CAT_COLORS: Record<string, string> = {
-  "baeume-natur": "#2E6B4F",
-  "abstrakt":     "#C03A78",
-  "maritim":      "#2B3FBF",
-  "tiere":        "#E9A820",
-};
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -45,9 +39,9 @@ export default async function ArtworkDetailPage({ params }: Props) {
   const artwork = await getArtworkBySlug(slug);
   if (!artwork) notFound();
 
-  const related = await getRelatedArtworks(artwork.category, artwork._id);
+  const related = await getRelatedArtworks(undefined, artwork._id);
   const imageUrl = urlFor(artwork.image).width(2000).fit("max").url();
-  const accentColor = (artwork.category ? CAT_COLORS[artwork.category] : null) ?? "#23252F";
+  const accentColor = accentFor(artwork.slug.current);
 
   const details = [
     ["Technik", artwork.technique],

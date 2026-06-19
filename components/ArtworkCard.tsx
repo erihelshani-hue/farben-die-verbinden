@@ -3,14 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
+import { accentFor } from "@/lib/accent";
 import type { Artwork } from "@/sanity/lib/queries";
-
-const CAT_COLORS: Record<string, string> = {
-  "baeume-natur": "#2E6B4F",
-  "abstrakt":     "#C03A78",
-  "maritim":      "#2B3FBF",
-  "tiere":        "#E9A820",
-};
 
 interface Props {
   artwork: Artwork;
@@ -19,7 +13,7 @@ interface Props {
 
 export default function ArtworkCard({ artwork, priority = false }: Props) {
   const imageUrl = urlFor(artwork.image).width(900).height(1100).fit("crop").url();
-  const accentColor = (artwork.category ? CAT_COLORS[artwork.category] : null) ?? "#23252F";
+  const accentColor = accentFor(artwork.slug.current);
 
   return (
     <Link

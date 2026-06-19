@@ -31,6 +31,9 @@ export interface ExhibitionInfo {
   einleitungstext?: string;
   story?: string;
   botschaft?: string;
+  datum?: string;
+  ort?: string;
+  adresse?: string;
 }
 
 export interface SocialLink {

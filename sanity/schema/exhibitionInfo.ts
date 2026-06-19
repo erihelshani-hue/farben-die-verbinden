@@ -35,6 +35,25 @@ export const exhibitionInfo = defineType({
       rows: 6,
       description: "Die zentrale Botschaft der Ausstellung (Zitat-Block).",
     }),
+    defineField({
+      name: "datum",
+      title: "Ausstellungsdatum",
+      type: "string",
+      description: "Wird prominent auf der Startseite gezeigt, z.B. „27. Juni 2026“.",
+    }),
+    defineField({
+      name: "ort",
+      title: "Ort (kurz)",
+      type: "string",
+      description: "Kurzform für den Hero, z.B. „Sachsenhausen · Frankfurt“.",
+    }),
+    defineField({
+      name: "adresse",
+      title: "Vollständige Adresse",
+      type: "text",
+      rows: 3,
+      description: "Für den Ausstellungs-Block und die Kartenanzeige, z.B. „Schweizer Straße 5, 60594 Frankfurt am Main“.",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Ausstellung" }),

@@ -35,13 +35,16 @@ export default async function HomePage() {
 
   const statement = artist?.statement ?? FALLBACK.statement;
   const intro = exhibition?.einleitungstext ?? FALLBACK.einleitung;
+  const datum = exhibition?.datum ?? "27. Juni 2026";
 
   return (
     <>
       <Hero
-        label="Kunstausstellung · 2026"
+        label="Kunstausstellung 2026"
         title="Farben die verbinden"
         subtitle="Vjollca Reshani"
+        datum={exhibition?.datum ?? "27. Juni 2026"}
+        ort={exhibition?.ort ?? "Sachsenhausen · Frankfurt"}
         imageUrl={heroImage}
       />
 
@@ -149,48 +152,77 @@ export default async function HomePage() {
       </section>
 
       {/* ── Ausstellung / Einladung ────────────────────────────── */}
-      {exhibition?.story && (
-        <section className="px-6 lg:px-14 pb-24 md:pb-36">
-          <div className="max-w-5xl mx-auto">
-            <FadeIn>
-              <div className="section-head">
-                <h2>Ausstellung</h2>
-                <span className="ml-auto text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-stone">
-                  Über 30 Werke
-                </span>
+      <section className="px-6 lg:px-14 pb-24 md:pb-36">
+        <div className="max-w-6xl mx-auto">
+          <FadeIn>
+            <div className="section-head">
+              <h2>Ausstellung</h2>
+              <span className="ml-auto text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-stone">
+                Über 30 Werke
+              </span>
+            </div>
+          </FadeIn>
+
+          {/* Datum + Ort als prominente Banner-Zeile */}
+          <FadeIn>
+            <div className="grid grid-cols-1 sm:grid-cols-2 border-[2.5px] border-ink mb-12">
+              <div className="p-7 sm:p-9" style={{ background: "var(--color-accent)" }}>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">
+                  Wann
+                </p>
+                <p className="text-3xl md:text-4xl text-white uppercase leading-none" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.02em" }}>
+                  {datum}
+                </p>
+              </div>
+              <div className="p-7 sm:p-9 border-t-[2.5px] sm:border-t-0 sm:border-l-[2.5px] border-ink" style={{ background: "var(--color-ultramarin)" }}>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">
+                  Wo
+                </p>
+                <p className="text-xl md:text-2xl text-white uppercase leading-tight" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}>
+                  Schweizer Straße 5<br />
+                  60594 Frankfurt a. M.
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-start">
+            <FadeIn from="left">
+              <p className="text-xl md:text-2xl leading-[1.5] text-ink" style={{ fontFamily: "var(--font-display)", fontWeight: 600, letterSpacing: "-0.015em" }}>
+                Ich lade Sie herzlich zu meiner Ausstellung ein.
+              </p>
+              <p className="mt-6 text-base leading-relaxed text-stone">
+                Gezeigt werden über 30 meiner Bilder, die einen Einblick in mein
+                aktuelles künstlerisches Projekt geben. Ich freue mich sehr über
+                Ihren Besuch und darauf, meine Arbeiten persönlich mit Ihnen zu teilen.
+              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Schweizer+Stra%C3%9Fe+5%2C+60594+Frankfurt+am+Main"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-8 text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ink border-b-[2.5px] border-ink pb-1 hover:border-ultramarin hover:text-ultramarin transition-colors"
+              >
+                Route planen ↗
+              </a>
+            </FadeIn>
+
+            {/* Google-Maps-Einbettung */}
+            <FadeIn from="right">
+              <div className="border-[2.5px] border-ink overflow-hidden" style={{ boxShadow: "8px 8px 0 var(--color-sonne)" }}>
+                <iframe
+                  title="Ausstellungsort — Schweizer Straße 5, Frankfurt am Main"
+                  src="https://www.google.com/maps?q=Schweizer%20Stra%C3%9Fe%205%2C%2060594%20Frankfurt%20am%20Main&output=embed"
+                  width="100%"
+                  height="320"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{ border: 0, display: "block" }}
+                />
               </div>
             </FadeIn>
-            <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-10 md:gap-16">
-              <FadeIn from="left">
-                <p className="text-xl md:text-2xl leading-[1.5] text-ink" style={{ fontFamily: "var(--font-display)", fontWeight: 600, letterSpacing: "-0.015em" }}>
-                  Ich lade Sie herzlich zu meiner Ausstellung ein.
-                </p>
-                <p className="mt-6 text-base leading-relaxed text-stone">
-                  Gezeigt werden über 30 meiner Bilder, die einen Einblick in mein
-                  aktuelles künstlerisches Projekt geben. Ich freue mich sehr über
-                  Ihren Besuch und darauf, meine Arbeiten persönlich mit Ihnen zu teilen.
-                </p>
-              </FadeIn>
-              <FadeIn from="right">
-                <div className="border-[2.5px] border-ink p-6" style={{ boxShadow: "6px 6px 0 var(--color-ultramarin)" }}>
-                  <div
-                    className="h-[3px] w-12 mb-5"
-                    style={{ background: "linear-gradient(90deg, var(--color-tanne) 0 25%, var(--color-accent) 25% 50%, var(--color-ultramarin) 50% 75%, var(--color-sonne) 75%)" }}
-                  />
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-stone mb-2">
-                    Wo
-                  </p>
-                  <p className="text-lg leading-snug text-ink" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
-                    Schweizer Straße 5<br />
-                    Sachsenhausen<br />
-                    60594 Frankfurt am Main
-                  </p>
-                </div>
-              </FadeIn>
-            </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* ── CTA ───────────────────────────────────────────────── */}
       <section className="bg-ink px-6 lg:px-14 py-28 md:py-36">
