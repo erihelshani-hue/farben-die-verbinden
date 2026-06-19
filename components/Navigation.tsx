@@ -23,6 +23,12 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  // Seiten mit dunklem Hintergrund am oberen Rand → helle Navigationsschrift,
+  // solange noch nicht gescrollt wurde (danach ist der Header hell hinterlegt).
+  const darkPage = pathname === "/kontakt";
+  const lightText = darkPage && !scrolled;
+  const baseTextColor = lightText ? "#F2F3EE" : "var(--color-ink)";
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -36,8 +42,8 @@ export default function Navigation() {
         <Link
           href="/"
           onClick={() => setMenuOpen(false)}
-          className="font-display text-[0.95rem] font-800 uppercase tracking-[-0.01em] text-ink"
-          style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+          className="font-display text-[0.95rem] font-800 uppercase tracking-[-0.01em] transition-colors"
+          style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: baseTextColor }}
         >
           Farben <span style={{ color: "var(--color-accent)" }}>die</span> verbinden
         </Link>
@@ -50,10 +56,10 @@ export default function Navigation() {
               <li key={href}>
                 <Link
                   href={href}
-                  className="group relative text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ink transition-colors"
-                  style={active ? { color: hoverColor } : undefined}
+                  className="group relative text-[0.8rem] font-semibold uppercase tracking-[0.12em] transition-colors"
+                  style={{ color: active ? hoverColor : baseTextColor }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = hoverColor; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = active ? hoverColor : ""; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = active ? hoverColor : baseTextColor; }}
                 >
                   {label}
                   <span
@@ -71,7 +77,8 @@ export default function Navigation() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden relative z-50 p-2 text-ink"
+          className="md:hidden relative z-50 p-2 transition-colors"
+          style={{ color: menuOpen ? "var(--color-ink)" : baseTextColor }}
           onClick={() => setMenuOpen((o) => !o)}
           aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
           aria-expanded={menuOpen}

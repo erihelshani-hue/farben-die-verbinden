@@ -163,10 +163,12 @@ async function run() {
       "Farben kennen keine Grenzen. Jede Farbe ist einzigartig und schön. Zusammen entstehen Bilder voller Leben, Hoffnung und Energie. Meine Kunst soll Menschen verbinden und zeigen, dass Vielfalt unsere Stärke ist.",
   });
 
+  const artistPhotoId = await uploadLocalImage("vjollca-portrait.jpeg", "Vjollca Reshani Portrait");
   await client.createOrReplace({
     _id: "artist",
     _type: "artist",
     name: "Vjollca Reshani",
+    photo: { _type: "image", asset: { _type: "reference", _ref: artistPhotoId } },
     statement:
       "Meine Kunst zeigt, dass jede Farbe ihren Platz hat. Gemeinsam erschaffen Farben Harmonie, Vielfalt und Schönheit – so wie die Menschen auf unserer Welt.",
     bio: toBlocks([
