@@ -1,11 +1,13 @@
 /**
- * Seed-Skript: legt 13 echte Werke + Singleton-Inhalte an.
+ * Seed-Skript: legt die 9 offiziellen Werke + Singleton-Inhalte an.
  * Bilder kommen aus dem lokalen Ordner /Kunstwerke/.
  *
  * Ausführen:
  *   npx sanity@latest exec scripts/seed.ts --with-user-token
  *
  * Das Skript ist idempotent: erneutes Ausführen überschreibt, dupliziert nicht.
+ * ACHTUNG: legt nur die hier definierten Werke neu an — alte Werke vorher
+ * über das Studio oder die API löschen.
  */
 
 import { createClient } from "@sanity/client";
@@ -42,94 +44,73 @@ interface SeedArtwork {
 }
 
 const artworks: SeedArtwork[] = [
-  // ── Bäume & Natur (4) ─────────────────────────────────────
-  {
-    title: "Lebensbaum",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (12).jpeg",
-    category: "baeume-natur", technique: "Acryl", dimensions: "80 × 80 cm", year: 2023,
-    description: "Ein expressiver Baum voller Lebensfreude — Rot, Gelb und Blau wirbeln in der Krone wie tanzende Flammen. Auf leuchtendem Blau und Gold wächst er in alle Richtungen: grenzenlos.",
-    featured: true,
-  },
-  {
-    title: "Blühende Wiese",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (15).jpeg",
-    category: "baeume-natur", technique: "Acryl", dimensions: "90 × 60 cm", year: 2023,
-    description: "Weiße Margeriten leuchten aus einem Meer aus Grün und Türkis — ein Moment sommerlicher Stille, in dem jede Blüte ihre eigene Geschichte erzählt.",
-  },
-  {
-    title: "Herbstleuchten",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (19).jpeg",
-    category: "baeume-natur", technique: "Öl", dimensions: "120 × 80 cm", year: 2022,
-    description: "Bäume spiegeln sich in stiller Wasserfläche, während der Himmel in flammendem Rot und Ocker glüht — ein letzter, großartiger Blick auf den scheidenden Tag.",
-  },
-  {
-    title: "Baum der Nacht",
-    localFile: "WhatsApp Image 2026-05-31 at 15.12.06.jpeg",
-    category: "baeume-natur", technique: "Acryl", dimensions: "60 × 80 cm", year: 2024,
-    description: "Goldene Äste breiten sich über schwarzen Grund aus, die Krone geschmückt mit pinken und gelben Blüten, die wie kleine Lichter in der Dunkelheit leuchten.",
-  },
-
-  // ── Abstrakt (5) ─────────────────────────────────────────
   {
     title: "Farben die verbinden",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (16).jpeg",
-    category: "abstrakt", technique: "Acryl", dimensions: "100 × 100 cm", year: 2024,
-    description: "Das Herzstück der Ausstellung — Farben fließen ineinander, stoßen aufeinander, verbinden sich. Ein Sog aus Blau, Magenta und Gelb, der den Betrachter mitten hineinzieht.",
+    localFile: "kosmische-wirbel.jpeg",
+    category: "abstrakt", technique: "Mischtechnik", dimensions: "Diptychon · 2 × 60 × 80 cm", year: 2026,
+    description:
+      "Dieses einzigartige Diptychon bietet zwei verschiedene Präsentationsmöglichkeiten. Die beiden Leinwände können klassisch nebeneinander aufgehängt werden und bilden einen harmonischen, geschlossenen Farbwirbel. Alternativ können sie versetzt angeordnet werden, wodurch eine moderne und dynamische Wirkung entsteht. So passt sich das Kunstwerk individuell an unterschiedliche Räume und Einrichtungsstile an.",
     featured: true,
   },
   {
-    title: "Naturgeist",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (17).jpeg",
-    category: "abstrakt", technique: "Mischtechnik", dimensions: "80 × 120 cm", year: 2023,
-    description: "Ein Gesicht, das aus dem Kosmos erwächst, die Haare als Äste — die Grenze zwischen Mensch und Natur löst sich auf in einem farbenfrohen Tanz aus Gelb, Rot und Blau.",
-  },
-  {
-    title: "Früchte des Lebens",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (21).jpeg",
-    category: "abstrakt", technique: "Mischtechnik", dimensions: "50 × 50 cm", year: 2023,
-    description: "Zwei Früchte explodieren in einem Feuerwerk aus Gelb, Pink und Schwarz auf türkisem Grund — ein Fest der Sinne, das Natur und pure Lebensfreude feiert.",
-  },
-  {
-    title: "Frühlingserwachen",
-    localFile: "WhatsApp Image 2026-05-31 at 14.48.01.jpeg",
-    category: "abstrakt", technique: "Acryl", dimensions: "120 × 60 cm", year: 2024,
-    description: "Kirschblüten in Pink, Blau und Violett umarmen eine goldene Stadtsilhouette — ein Traum, in dem Natur und Metropole in vollkommener Harmonie verschmelzen.",
+    title: "Zwischen Himmel und Tiefe",
+    localFile: "zwischen-himmel-und-tiefe.jpeg",
+    category: "baeume-natur", technique: "Acryl", dimensions: "Diptychon · 2 × 40 × 50 cm", year: 2026,
+    description:
+      "Dieses Werk bewegt sich zwischen Traum und Wirklichkeit. Die leuchtenden Blau-, Rosa- und Türkistöne verbinden die Weite des Himmels mit der geheimnisvollen Tiefe des Wassers. Die sanft schwingenden Pflanzenformen symbolisieren Wachstum, Freiheit und die Verbundenheit mit der Natur.",
     featured: true,
   },
   {
-    title: "La Belle",
-    localFile: "WhatsApp Image 2026-05-31 at 15.40.36.jpeg",
-    category: "abstrakt", technique: "Mischtechnik", dimensions: "80 × 100 cm", year: 2024,
-    description: "Eine Frau im großen lila Hut, geschmückt mit üppigen dreidimensionalen Blüten in den Farben der Welt — Eleganz und Farbenfreude in einem einzigen Bild.",
-  },
-
-  // ── Maritim (3) ───────────────────────────────────────────
-  {
-    title: "Regatta",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (13).jpeg",
-    category: "maritim", technique: "Acryl", dimensions: "100 × 50 cm", year: 2023,
-    description: "Eine Flotte bunter Segelboote auf blau-violettem Wasser — Segel in Rot, Grün, Weiß und Gelb tanzen über die Wellen in einem Fest aus Bewegung und Farbe.",
+    title: "Frucht der Emotionen",
+    localFile: "frucht-der-emotionen.jpeg",
+    category: "abstrakt", technique: "Mischtechnik", dimensions: "50 × 40 cm", year: 2026,
+    description:
+      "Leuchtende Farben, lebendige Strukturen und kraftvolle Kontraste fangen die Energie tropischer Früchte ein. Die plastisch gestalteten Formen treten aus der Leinwand hervor und verbinden sich mit dynamischen Farbspritzern zu einer Komposition voller Lebensfreude und Exotik. Das Werk lädt den Betrachter ein, die Wärme, Frische und Farbenpracht tropischer Früchte zu erleben.",
   },
   {
-    title: "Segel im Abendrot",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (22).jpeg",
-    category: "maritim", technique: "Öl", dimensions: "100 × 70 cm", year: 2022,
-    description: "Fünf Segelboote mit farbigen Segeln vor einem dramatischen Abendhimmel — Magenta, Rot, Weiß und Violett spiegeln sich im tiefen Blau des Meeres.",
+    title: "Wurzeln des Lebens",
+    localFile: "wurzeln-des-lebens.jpeg",
+    category: "baeume-natur", technique: "Mischtechnik", dimensions: "Triptychon · 3 × 40 × 40 cm", year: 2026,
+    description:
+      "Drei Bäume, drei Persönlichkeiten, drei Lebenswege. Der farbenreiche Lebensbaum in der Mitte symbolisiert Stärke, Wachstum und Zusammenhalt. Die beiden seitlichen Bäume werden von seiner Kraft angezogen und suchen die Verbindung zu ihm. Das Werk erzählt von Gemeinschaft, von Jung und Alt, von Vielfalt und dem Wunsch, trotz aller Unterschiede miteinander verbunden zu sein. Es erinnert daran, dass unsere Wurzeln uns tragen und unsere Beziehungen uns wachsen lassen.",
     featured: true,
   },
   {
-    title: "Tiefsee",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (18).jpeg",
-    category: "maritim", technique: "Öl", dimensions: "140 × 100 cm", year: 2024,
-    description: "Ein leuchtendes Unterwasserparadies — goldene Fische schwärmen durch tiefes Grün und Blau, rund um einen leuchtenden Kern aus Gold und Orange.",
+    title: "Geheimnis in Violett",
+    localFile: "geheimnis-in-violett.jpeg",
+    category: "abstrakt", technique: "Mischtechnik", dimensions: "80 × 100 cm", year: 2026,
+    description:
+      "Das Werk beschäftigt sich mit der Idee, dass das Wertvollste eines Menschen oft nicht auf den ersten Blick sichtbar ist. Hinter der äußeren Erscheinung verbirgt sich eine innere Welt voller Erfahrungen, Gefühle und Möglichkeiten. Die leuchtenden Farben verleihen dieser inneren Kraft Ausdruck und stehen im Kontrast zur zurückhaltenden Darstellung der Figur.",
   },
-
-  // ── Tiere (1) ─────────────────────────────────────────────
   {
-    title: "Schwarzes Pferd",
-    localFile: "WhatsApp Image 2026-05-31 at 13.47.21 (20).jpeg",
-    category: "tiere", technique: "Öl", dimensions: "110 × 160 cm", year: 2024,
-    description: "Ein schwarzes Pferd in voller Würde — die Mähne fließt, das Auge leuchtet golden. Der strukturierte Hintergrund aus Kupfer und Violett verleiht dem Tier eine fast mythische Präsenz.",
+    title: "Der Blick des Pferdes",
+    localFile: "der-blick-des-pferdes.jpeg",
+    category: "tiere", technique: "Öl", dimensions: "110 × 160 cm", year: 2026,
+    description:
+      "Nicht nur Menschen können porträtiert werden – auch Tiere. Besonders Pferde besitzen eine eigene Persönlichkeit, Ausstrahlung und Würde. Sie begleiten den Menschen seit Jahrhunderten und nehmen oft einen besonderen Platz in seinem Leben ein. Mit diesem Porträt möchte ich zeigen, dass auch Tiere als individuelle Wesen wahrgenommen und wertgeschätzt werden können.",
+    featured: true,
+  },
+  {
+    title: "Aus Gold geboren, im Schatten leben",
+    localFile: "aus-gold-geboren.jpeg",
+    category: "abstrakt", technique: "Mischtechnik", dimensions: "80 × 120 cm", year: 2026,
+    description:
+      "Ein Porträt über Wachstum, Erinnerungen und die Spuren des Lebens. Die Farben spiegeln unterschiedliche Gefühle wider, während die dunkle Brille Schutz und Rückzug symbolisiert. Die goldenen Äste stehen für Herkunft, Stärke und Verbundenheit.",
+  },
+  {
+    title: "Segel zum Licht",
+    localFile: "segel-zum-licht.jpeg",
+    category: "maritim", technique: "Öl", dimensions: "100 × 70 cm", year: 2026,
+    description:
+      "Durch die ausdrucksstarke Struktur und die sichtbaren Spuren des Farbauftrags entsteht Bewegung, die Wind, Wellen und die Energie des Augenblicks spürbar macht. Der Himmel verbindet kühle und warme Farbtöne und symbolisiert den Übergang zwischen Ruhe und Kraft, zwischen Aufbruch und Ankunft.",
+    featured: true,
+  },
+  {
+    title: "Frankfurt in Blüte",
+    localFile: "frankfurt-in-bluete.jpeg",
+    category: "abstrakt", technique: "Mischtechnik", dimensions: "120 × 60 cm", year: 2026,
+    description:
+      "Dieses Werk zeigt Frankfurt als Symbol für Vielfalt, Zusammenhalt und friedliches Miteinander. Die bunten Blüten stehen für die vielen Kulturen und Menschen, die gemeinsam die Stadt prägen. Trotz ihrer Unterschiede bilden sie zusammen eine harmonische Einheit.",
     featured: true,
   },
 ];
@@ -157,6 +138,16 @@ async function uploadLocalImage(filename: string, label: string): Promise<string
   return asset._id;
 }
 
+// Hilfsfunktion: Text mit Absätzen → Portable-Text-Blöcke
+function toBlocks(paragraphs: string[]) {
+  return paragraphs.map((text, i) => ({
+    _type: "block",
+    _key: `b${i}`,
+    style: "normal",
+    children: [{ _type: "span", _key: `b${i}s`, text }],
+  }));
+}
+
 async function run() {
   console.log("→ Singletons anlegen …");
 
@@ -165,9 +156,9 @@ async function run() {
     _type: "exhibitionInfo",
     titel: "Farben die verbinden",
     einleitungstext:
-      "Abstrakte und expressionistische Gemälde von Vjollca Reshani. Jedes Bild erzählt eine Geschichte aus Farben, Emotionen und Kreativität.",
+      "Willkommen auf meiner Kunstseite. Hier präsentiere ich meine abstrakten und expressionistischen Gemälde. Jedes Bild erzählt eine eigene Geschichte aus Farben, Emotionen und Kreativität. Mit meiner Kunst möchte ich zeigen, dass Vielfalt etwas Schönes ist und dass jede Farbe zum großen Ganzen beiträgt.",
     story:
-      "In dieser Ausstellung begegnen sich Bäume, Wasser und Licht — verwandelt durch Farbe in etwas Universelles. Jedes Werk lädt dazu ein, innezuhalten und zu fühlen, was Worte oft nicht ausdrücken können.",
+      "Ich lade Sie herzlich zu meiner Ausstellung ein. Die Ausstellung findet in der Schweizer Straße 5 in Sachsenhausen, Frankfurt am Main statt. Gezeigt werden über 30 meiner Bilder, die einen Einblick in mein aktuelles künstlerisches Projekt geben. Ich freue mich sehr über Ihren Besuch und darauf, meine Arbeiten persönlich mit Ihnen zu teilen.",
     botschaft:
       "Farben kennen keine Grenzen. Jede Farbe ist einzigartig und schön. Zusammen entstehen Bilder voller Leben, Hoffnung und Energie. Meine Kunst soll Menschen verbinden und zeigen, dass Vielfalt unsere Stärke ist.",
   });
@@ -178,27 +169,20 @@ async function run() {
     name: "Vjollca Reshani",
     statement:
       "Meine Kunst zeigt, dass jede Farbe ihren Platz hat. Gemeinsam erschaffen Farben Harmonie, Vielfalt und Schönheit – so wie die Menschen auf unserer Welt.",
-    bio: [
-      {
-        _type: "block",
-        _key: "bio1",
-        style: "normal",
-        children: [
-          {
-            _type: "span",
-            _key: "bio1s",
-            text: "Vjollca Reshani malt seit vielen Jahren und hat eine unverwechselbare Bildsprache entwickelt, in der Natur, Licht und intensive Farben miteinander in Dialog treten.",
-          },
-        ],
-      },
-    ],
+    bio: toBlocks([
+      "Beruflich arbeite ich als Erzieherin. Durch meine Arbeit mit Kindern konnte ich viele Erfahrungen im kreativen Gestalten und im Umgang mit künstlerischen Ausdrucksformen sammeln.",
+      "Um meine eigenen künstlerischen Fähigkeiten weiterzuentwickeln, habe ich außerdem ein Fernstudium bei der Studiengemeinschaft Darmstadt (SGD) absolviert. Der Lehrgang „Kunstwerkstatt – Professionell Malen“ ermöglichte es mir, verschiedene Maltechniken kennenzulernen und meine kreative Arbeitsweise weiterzuentwickeln.",
+      "Während des Malens höre ich klassische Musik. Die Musik hilft mir, mich zu konzentrieren und in einen kreativen Zustand zu kommen. Durch die Klänge entstehen in meiner Vorstellung neue Gedanken, Stimmungen und Bilder.",
+      "Meine Werke sind meist nicht von Anfang an vollständig geplant. Während ich male und der Musik zuhöre, entwickeln sich die Bilder Schritt für Schritt. Farben, Formen und Kompositionen verändern sich im Laufe des Arbeitsprozesses und führen oft zu neuen Ideen.",
+      "Besonders interessant finde ich die Verbindung zwischen Musik, Fantasie und Malerei. Die Musik beeinflusst meine Wahrnehmung und unterstützt meinen kreativen Prozess. Dadurch entstehen Bildwelten, die sich während des Malens immer weiter entfalten.",
+    ]),
     exhibitionTitle: "Farben die verbinden",
   });
 
   await client.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
-    kontaktEmail: "kontakt@farben-die-verbinden.de",
+    kontaktEmail: "v.reshani@web.de",
     socialLinks: [],
   });
 
@@ -225,7 +209,7 @@ async function run() {
     console.log(`   ✓ ${art.title}`);
   }
 
-  console.log("\n✅ Fertig — 13 echte Werke und alle Texte wurden angelegt.");
+  console.log(`\n✅ Fertig — ${artworks.length} Werke und alle Texte wurden angelegt.`);
 }
 
 run().catch((err) => {

@@ -6,3 +6,6 @@ out
 dist
 *.tsbuildinfo
 .DS_Store
+
+# Original-WhatsApp-Fotos (Quellen, nicht versioniert)
+Kunstwerke/WhatsApp*

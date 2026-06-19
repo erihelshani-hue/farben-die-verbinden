@@ -17,7 +17,7 @@ const FALLBACK = {
     "Abstrakte und expressionistische Gemälde von Vjollca Reshani. Jedes Bild erzählt eine Geschichte aus Farben, Emotionen und Kreativität.",
   statement:
     "Farben kennen keine Grenzen. Zusammen entstehen Bilder voller Leben, Hoffnung und Energie.",
-  bio: "Vjollca Reshani malt seit vielen Jahren und hat eine unverwechselbare Bildsprache entwickelt, in der Natur, Licht und intensive Farben miteinander in Dialog treten.",
+  bio: "Erzieherin und Malerin aus Frankfurt. Ihre Bilder entstehen beim Hören klassischer Musik — Schritt für Schritt aus Farbe, Fantasie und Gefühl.",
 };
 
 export default async function HomePage() {
@@ -147,6 +147,50 @@ export default async function HomePage() {
           </FadeIn>
         </div>
       </section>
+
+      {/* ── Ausstellung / Einladung ────────────────────────────── */}
+      {exhibition?.story && (
+        <section className="px-6 lg:px-14 pb-24 md:pb-36">
+          <div className="max-w-5xl mx-auto">
+            <FadeIn>
+              <div className="section-head">
+                <h2>Ausstellung</h2>
+                <span className="ml-auto text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-stone">
+                  Über 30 Werke
+                </span>
+              </div>
+            </FadeIn>
+            <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-10 md:gap-16">
+              <FadeIn from="left">
+                <p className="text-xl md:text-2xl leading-[1.5] text-ink" style={{ fontFamily: "var(--font-display)", fontWeight: 600, letterSpacing: "-0.015em" }}>
+                  Ich lade Sie herzlich zu meiner Ausstellung ein.
+                </p>
+                <p className="mt-6 text-base leading-relaxed text-stone">
+                  Gezeigt werden über 30 meiner Bilder, die einen Einblick in mein
+                  aktuelles künstlerisches Projekt geben. Ich freue mich sehr über
+                  Ihren Besuch und darauf, meine Arbeiten persönlich mit Ihnen zu teilen.
+                </p>
+              </FadeIn>
+              <FadeIn from="right">
+                <div className="border-[2.5px] border-ink p-6" style={{ boxShadow: "6px 6px 0 var(--color-ultramarin)" }}>
+                  <div
+                    className="h-[3px] w-12 mb-5"
+                    style={{ background: "linear-gradient(90deg, var(--color-tanne) 0 25%, var(--color-accent) 25% 50%, var(--color-ultramarin) 50% 75%, var(--color-sonne) 75%)" }}
+                  />
+                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-stone mb-2">
+                    Wo
+                  </p>
+                  <p className="text-lg leading-snug text-ink" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
+                    Schweizer Straße 5<br />
+                    Sachsenhausen<br />
+                    60594 Frankfurt am Main
+                  </p>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── CTA ───────────────────────────────────────────────── */}
       <section className="bg-ink px-6 lg:px-14 py-28 md:py-36">
