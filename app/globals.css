@@ -31,6 +31,12 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Sicherheitsnetz: nie horizontal über den Viewport hinaus scrollen/abschneiden */
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   /* Alle Display-Elemente: Syne */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
@@ -63,13 +69,15 @@
     margin-bottom: 3.5rem;
   }
 
+  .section-head h1,
   .section-head h2 {
     font-family: var(--font-display);
     font-weight: 800;
     text-transform: uppercase;
-    font-size: clamp(1.8rem, 5vw, 3.2rem);
-    letter-spacing: -0.025em;
+    font-size: clamp(1.5rem, 5vw, 3.2rem);
+    letter-spacing: -0.03em;
     line-height: 1;
+    overflow-wrap: anywhere;
   }
 
   /* Kategorie-Farbbadge */
