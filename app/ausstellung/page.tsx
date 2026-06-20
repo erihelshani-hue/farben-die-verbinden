@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
+const HERO_IMAGE = "/ausstellung/festsaal.jpg";
+
 const VENUE = [
   { src: "/ausstellung/saal-golddecke.jpeg", alt: "Festsaal mit goldener Deckenmalerei und Kronleuchter" },
   { src: "/ausstellung/saal-holzdecke.jpeg", alt: "Saal mit kunstvoll geschnitzter Holzdecke" },
@@ -28,8 +30,8 @@ export default async function AusstellungPage() {
       {/* Bild-Hero des Veranstaltungsorts */}
       <section className="relative h-[78svh] min-h-[480px] flex items-end overflow-hidden bg-ink">
         <Image
-          src={VENUE[0].src}
-          alt={VENUE[0].alt}
+          src={HERO_IMAGE}
+          alt="Festsaal des Ausstellungsorts in Frankfurt-Sachsenhausen"
           fill
           priority
           sizes="100vw"
@@ -45,8 +47,8 @@ export default async function AusstellungPage() {
             Kunstausstellung
           </p>
           <h1
-            className="text-white uppercase leading-[0.92]"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.02em", fontSize: "clamp(2.5rem, 8vw, 6.5rem)" }}
+            className="text-white uppercase leading-[0.95]"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.03em", fontSize: "clamp(1.3rem, 6.2vw, 6rem)" }}
           >
             Die Ausstellung
           </h1>
