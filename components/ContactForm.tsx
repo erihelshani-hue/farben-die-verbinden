@@ -7,22 +7,18 @@ import { AnimatePresence, motion } from "framer-motion";
 interface FormData {
   name: string;
   email: string;
-  artwork?: string;
   message: string;
 }
 
 interface Props {
-  artworkTitle?: string;
   /** Auf dunklem Hintergrund — Felder in Weiß */
   dark?: boolean;
 }
 
-export default function ContactForm({ artworkTitle, dark = false }: Props) {
+export default function ContactForm({ dark = false }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
-    defaultValues: { artwork: artworkTitle ?? "" },
-  });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     setStatus("sending");
@@ -99,15 +95,6 @@ export default function ContactForm({ artworkTitle, dark = false }: Props) {
             <label htmlFor="email" className={labelBase}>E-Mail</label>
             {errors.email && <p className="mt-2 text-[0.72rem] text-accent">{errors.email.message}</p>}
           </div>
-
-          {artworkTitle ? (
-            <input type="hidden" value={artworkTitle} {...register("artwork")} />
-          ) : (
-            <div className="relative">
-              <input id="artwork" placeholder="Interesse an Werk" className={fieldBase} {...register("artwork")} />
-              <label htmlFor="artwork" className={labelBase}>Interesse an Werk (optional)</label>
-            </div>
-          )}
 
           <div className="relative">
             <textarea id="message" placeholder="Nachricht" rows={4}

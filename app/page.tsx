@@ -27,13 +27,11 @@ export default async function HomePage() {
     getExhibitionInfo(),
   ]);
 
+  // Hero-Hintergrund: das zentrale Werk „Farben die verbinden"
   const heroImage = featured[0]?.image
-    ? urlFor(featured[0].image).width(800).height(1066).fit("crop").url()
-    : artist?.photo
-      ? urlFor(artist.photo).width(800).height(1066).fit("crop").url()
-      : undefined;
+    ? urlFor(featured[0].image).width(2000).height(1400).fit("crop").url()
+    : "/ausstellung/saal-golddecke.jpeg";
 
-  const statement = artist?.statement ?? FALLBACK.statement;
   const intro = exhibition?.einleitungstext ?? FALLBACK.einleitung;
   const datum = exhibition?.datum ?? "27. Juni 2026";
 
@@ -41,7 +39,6 @@ export default async function HomePage() {
     <>
       <Hero
         label="Kunstausstellung 2026"
-        title="Farben die verbinden"
         subtitle="Vjollca Reshani"
         datum={exhibition?.datum ?? "27. Juni 2026"}
         ort={exhibition?.ort ?? "Sachsenhausen · Frankfurt"}
@@ -151,7 +148,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Ausstellung / Einladung ────────────────────────────── */}
+      {/* ── Ausstellung Teaser ─────────────────────────────────── */}
       <section className="px-6 lg:px-14 pb-24 md:pb-36">
         <div className="max-w-6xl mx-auto">
           <FadeIn>
@@ -163,21 +160,17 @@ export default async function HomePage() {
             </div>
           </FadeIn>
 
-          {/* Datum + Ort als prominente Banner-Zeile */}
+          {/* Datum + Ort Banner */}
           <FadeIn>
-            <div className="grid grid-cols-1 sm:grid-cols-2 border-[2.5px] border-ink mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 border-[2.5px] border-ink">
               <div className="p-7 sm:p-9" style={{ background: "var(--color-accent)" }}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">
-                  Wann
-                </p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">Wann</p>
                 <p className="text-3xl md:text-4xl text-white uppercase leading-none" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.02em" }}>
                   {datum}
                 </p>
               </div>
               <div className="p-7 sm:p-9 border-t-[2.5px] sm:border-t-0 sm:border-l-[2.5px] border-ink" style={{ background: "var(--color-ultramarin)" }}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">
-                  Wo
-                </p>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">Wo</p>
                 <p className="text-xl md:text-2xl text-white uppercase leading-tight" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}>
                   Schweizer Straße 5<br />
                   60594 Frankfurt a. M.
@@ -186,65 +179,23 @@ export default async function HomePage() {
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-start">
-            <FadeIn from="left">
-              <p className="text-xl md:text-2xl leading-[1.5] text-ink" style={{ fontFamily: "var(--font-display)", fontWeight: 600, letterSpacing: "-0.015em" }}>
-                Ich lade Sie herzlich zu meiner Ausstellung ein.
+          <FadeIn delay={0.1}>
+            <div className="mt-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+              <p className="max-w-xl text-base leading-relaxed text-stone">
+                Ich lade Sie herzlich zu meiner Ausstellung in einem historischen Saal in
+                Frankfurt-Sachsenhausen ein — über 30 Werke, ein Einblick in mein aktuelles
+                künstlerisches Projekt.
               </p>
-              <p className="mt-6 text-base leading-relaxed text-stone">
-                Gezeigt werden über 30 meiner Bilder, die einen Einblick in mein
-                aktuelles künstlerisches Projekt geben. Ich freue mich sehr über
-                Ihren Besuch und darauf, meine Arbeiten persönlich mit Ihnen zu teilen.
-              </p>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Schweizer+Stra%C3%9Fe+5%2C+60594+Frankfurt+am+Main"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-8 text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ink border-b-[2.5px] border-ink pb-1 hover:border-ultramarin hover:text-ultramarin transition-colors"
+              <Link
+                href="/ausstellung"
+                className="inline-block shrink-0 rounded-full px-9 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5"
+                style={{ background: "var(--color-ink)", color: "var(--color-canvas)", fontFamily: "var(--font-display)" }}
               >
-                Route planen ↗
-              </a>
-            </FadeIn>
-
-            {/* Google-Maps-Einbettung */}
-            <FadeIn from="right">
-              <div className="border-[2.5px] border-ink overflow-hidden" style={{ boxShadow: "8px 8px 0 var(--color-sonne)" }}>
-                <iframe
-                  title="Ausstellungsort — Schweizer Straße 5, Frankfurt am Main"
-                  src="https://www.google.com/maps?q=Schweizer%20Stra%C3%9Fe%205%2C%2060594%20Frankfurt%20am%20Main&output=embed"
-                  width="100%"
-                  height="320"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  style={{ border: 0, display: "block" }}
-                />
-              </div>
-            </FadeIn>
-          </div>
+                Zur Ausstellung →
+              </Link>
+            </div>
+          </FadeIn>
         </div>
-      </section>
-
-      {/* ── CTA ───────────────────────────────────────────────── */}
-      <section className="bg-ink px-6 lg:px-14 py-28 md:py-36">
-        <FadeIn className="max-w-2xl mx-auto text-center">
-          <h2
-            className="text-4xl md:text-5xl text-white mb-6 uppercase"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}
-          >
-            Interesse an einem Werk?
-          </h2>
-          <p className="text-base text-white/60 mb-10">
-            Alle Werke sind verkäuflich — Preis auf Anfrage.
-            Kontaktieren Sie uns für Anfragen und Ausstellungsinformationen.
-          </p>
-          <Link
-            href="/kontakt"
-            className="inline-block rounded-full px-10 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5"
-            style={{ background: "var(--color-sonne)", color: "var(--color-ink)" }}
-          >
-            Anfrage stellen
-          </Link>
-        </FadeIn>
       </section>
     </>
   );
