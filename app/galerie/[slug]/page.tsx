@@ -6,10 +6,10 @@ import {
   getAllArtworks,
   getArtworkBySlug,
   getRelatedArtworks,
+  getExhibitionInfo,
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { accentFor } from "@/lib/accent";
-import ContactForm from "@/components/ContactForm";
 import ArtworkCard from "@/components/ArtworkCard";
 import FadeIn from "@/components/FadeIn";
 
@@ -39,7 +39,11 @@ export default async function ArtworkDetailPage({ params }: Props) {
   const artwork = await getArtworkBySlug(slug);
   if (!artwork) notFound();
 
-  const related = await getRelatedArtworks(undefined, artwork._id);
+  const [related, exhibition] = await Promise.all([
+    getRelatedArtworks(undefined, artwork._id),
+    getExhibitionInfo(),
+  ]);
+  const datum = exhibition?.datum ?? "27. Juni 2026";
   const imageUrl = urlFor(artwork.image).width(2000).fit("max").url();
   const accentColor = accentFor(artwork.slug.current);
 
@@ -104,27 +108,33 @@ export default async function ArtworkDetailPage({ params }: Props) {
             </dl>
           </FadeIn>
 
-          {/* Beschreibung + Anfrage */}
+          {/* Beschreibung */}
           <FadeIn from="right">
             {artwork.description && (
               <p
-                className="italic text-xl md:text-2xl leading-[1.5] text-ink mb-12"
+                className="italic text-xl md:text-2xl leading-[1.5] text-ink mb-10"
                 style={{ borderLeft: `3px solid ${accentColor}`, paddingLeft: "1.25rem" }}
               >
                 {artwork.description}
               </p>
             )}
-            <div className="border-t-[2.5px] border-ink pt-10">
+            <div className="border-t-[2.5px] border-ink pt-8">
               <p
                 className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] mb-2"
                 style={{ color: accentColor }}
               >
-                Preis auf Anfrage
+                Teil der Ausstellung
               </p>
-              <p className="text-sm text-stone mb-8">
-                Füllen Sie das Formular aus — wir melden uns schnellstmöglich bei Ihnen.
+              <p className="text-sm text-stone mb-6">
+                Dieses Werk ist Teil der Ausstellung „Farben die verbinden“ — zu sehen
+                am {datum} in Frankfurt-Sachsenhausen.
               </p>
-              <ContactForm artworkTitle={artwork.title} />
+              <Link
+                href="/ausstellung"
+                className="inline-block text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ink border-b-[2.5px] border-ink pb-1 hover:text-accent hover:border-accent transition-colors"
+              >
+                Zur Ausstellung →
+              </Link>
             </div>
           </FadeIn>
         </div>

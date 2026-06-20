@@ -38,7 +38,7 @@ export default function GaleriePage() {
             className="max-w-2xl mb-14 text-base leading-relaxed text-stone"
           >
             Jedes Werk erzählt eine eigene Geschichte aus Farben, Emotionen und
-            Kreativität. Alle Arbeiten sind verkäuflich — Preis auf Anfrage.
+            Kreativität — gezeigt in der Ausstellung „Farben die verbinden“.
           </motion.p>
         </div>
       </section>

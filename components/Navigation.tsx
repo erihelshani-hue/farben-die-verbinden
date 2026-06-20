@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
+  { href: "/ausstellung", label: "Ausstellung", hoverColor: "#E9A820" },
   { href: "/galerie",     label: "Galerie",     hoverColor: "#2E6B4F" },
   { href: "/kuenstlerin", label: "Künstlerin",  hoverColor: "#C03A78" },
   { href: "/kontakt",     label: "Kontakt",     hoverColor: "#2B3FBF" },
@@ -25,7 +26,7 @@ export default function Navigation() {
 
   // Seiten mit dunklem Hintergrund am oberen Rand → helle Navigationsschrift,
   // solange noch nicht gescrollt wurde (danach ist der Header hell hinterlegt).
-  const darkPage = pathname === "/kontakt";
+  const darkPage = pathname === "/" || pathname === "/kontakt" || pathname === "/ausstellung";
   const lightText = darkPage && !scrolled;
   const baseTextColor = lightText ? "#F2F3EE" : "var(--color-ink)";
 
@@ -77,14 +78,15 @@ export default function Navigation() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden relative z-50 p-2 transition-colors"
+          type="button"
+          className="md:hidden relative z-[60] -mr-2 p-3 transition-colors"
           style={{ color: menuOpen ? "var(--color-ink)" : baseTextColor }}
           onClick={() => setMenuOpen((o) => !o)}
           aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
           aria-expanded={menuOpen}
         >
-          <span className={`block w-6 h-[2.5px] bg-current transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[4px]" : ""}`} />
-          <span className={`block w-6 h-[2.5px] bg-current mt-1.5 transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[4px]" : ""}`} />
+          <span className={`block w-6 h-[2.5px] bg-current transition-transform duration-200 ${menuOpen ? "rotate-45 translate-y-[4px]" : ""}`} />
+          <span className={`block w-6 h-[2.5px] bg-current mt-1.5 transition-transform duration-200 ${menuOpen ? "-rotate-45 -translate-y-[4px]" : ""}`} />
         </button>
       </nav>
 
@@ -95,28 +97,29 @@ export default function Navigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-            className="md:hidden fixed inset-0 z-40 bg-canvas flex flex-col items-start justify-end pb-16 px-6 gap-6"
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="md:hidden fixed inset-0 z-50 bg-canvas overflow-hidden flex flex-col justify-center gap-4 px-6"
           >
-            {links.map(({ href, label, hoverColor }, i) => (
-              <motion.div
-                key={href}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.08 + i * 0.07, duration: 0.45 }}
-              >
+            {links.map(({ href, label, hoverColor }) => {
+              const active = pathname.startsWith(href);
+              return (
                 <Link
+                  key={href}
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className="block font-display font-800 uppercase text-5xl text-ink leading-tight"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = hoverColor; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = ""; }}
+                  className="block uppercase leading-[1.05] whitespace-nowrap transition-colors"
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 800,
+                    letterSpacing: "-0.02em",
+                    fontSize: "clamp(1.25rem, 6.6vw, 2rem)",
+                    color: active ? hoverColor : "var(--color-ink)",
+                  }}
                 >
                   {label}
                 </Link>
-              </motion.div>
-            ))}
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>
