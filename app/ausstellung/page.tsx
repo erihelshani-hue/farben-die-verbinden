@@ -145,7 +145,7 @@ export default async function AusstellungPage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
           <FadeIn from="left">
             <div className="relative aspect-[4/3] overflow-hidden border-[2.5px] border-ink" style={{ boxShadow: "8px 8px 0 var(--color-sonne)" }}>
-              <Image src="/ausstellung/rueckblick/piano.jpeg" alt="Pianistin Adelina Hashani am Flügel während der Vernissage" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+              <Image src="/ausstellung/rueckblick/piano.jpeg" alt="Klavierbegleitung am Flügel während der Vernissage, Gäste lauschen" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
           </FadeIn>
           <FadeIn from="right">
