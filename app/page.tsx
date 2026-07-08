@@ -153,46 +153,42 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto">
           <FadeIn>
             <div className="section-head">
-              <h2>Ausstellung</h2>
+              <h2>Rückblick</h2>
               <span className="ml-auto text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-stone">
-                Über 30 Werke
+                {datum} · Frankfurt
               </span>
             </div>
           </FadeIn>
 
-          {/* Datum + Ort Banner */}
+          {/* Rückblick-Teaser mit Foto */}
           <FadeIn>
-            <div className="grid grid-cols-1 sm:grid-cols-2 border-[2.5px] border-ink">
-              <div className="p-7 sm:p-9" style={{ background: "var(--color-accent)" }}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">Wann</p>
-                <p className="text-3xl md:text-4xl text-white uppercase leading-none" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.02em" }}>
-                  {datum}
-                </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 border-[2.5px] border-ink">
+              <div className="relative min-h-[240px] md:min-h-[340px]">
+                <Image
+                  src="/ausstellung/rueckblick/vernissage.jpeg"
+                  alt="Vernissage der Ausstellung „Farben die verbinden“"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
               </div>
-              <div className="p-7 sm:p-9 border-t-[2.5px] sm:border-t-0 sm:border-l-[2.5px] border-ink" style={{ background: "var(--color-ultramarin)" }}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/80 mb-2">Wo</p>
-                <p className="text-xl md:text-2xl text-white uppercase leading-tight" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}>
-                  Schweizer Straße 5<br />
-                  60594 Frankfurt a. M.
+              <div className="p-7 sm:p-10 flex flex-col justify-center bg-ink">
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-sonne mb-3">
+                  Die erste Ausstellung
                 </p>
+                <p className="text-white text-lg md:text-xl leading-relaxed mb-6">
+                  Am {datum} wurde „Farben die verbinden“ in einer historischen Galerie in
+                  Frankfurt-Sachsenhausen eröffnet — über 30 Werke, dazu die „Baum des
+                  Lebens“-Skulpturen und musikalische Begleitung am Flügel.
+                </p>
+                <Link
+                  href="/ausstellung"
+                  className="self-start rounded-full px-8 py-3.5 text-[0.8rem] font-semibold uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5"
+                  style={{ background: "var(--color-sonne)", color: "var(--color-ink)", fontFamily: "var(--font-display)" }}
+                >
+                  Zum Rückblick →
+                </Link>
               </div>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="mt-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-              <p className="max-w-xl text-base leading-relaxed text-stone">
-                Ich lade Sie herzlich zu meiner Ausstellung in einem historischen Saal in
-                Frankfurt-Sachsenhausen ein — über 30 Werke, ein Einblick in mein aktuelles
-                künstlerisches Projekt.
-              </p>
-              <Link
-                href="/ausstellung"
-                className="inline-block shrink-0 rounded-full px-9 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5"
-                style={{ background: "var(--color-ink)", color: "var(--color-canvas)", fontFamily: "var(--font-display)" }}
-              >
-                Zur Ausstellung →
-              </Link>
             </div>
           </FadeIn>
         </div>
