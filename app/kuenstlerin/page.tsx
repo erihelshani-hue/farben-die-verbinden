@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { PortableText } from "next-sanity";
 import { getArtist } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { aspectFromRef } from "@/lib/imageDims";
 import FadeIn from "@/components/FadeIn";
 
 export const metadata: Metadata = {
@@ -32,15 +33,18 @@ export default async function KuenstlerinPage() {
       <section className="px-6 lg:px-14 pb-16 md:pb-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-          {/* Bild */}
+          {/* Bild — im natürlichen Seitenverhältnis, wird nie beschnitten */}
           <FadeIn from="left">
             {artist?.photo ? (
               <div
-                className="relative aspect-[3/4] overflow-hidden border-[2.5px] border-ink"
-                style={{ boxShadow: "8px 8px 0 var(--color-ink)" }}
+                className="relative overflow-hidden border-[2.5px] border-ink"
+                style={{
+                  boxShadow: "8px 8px 0 var(--color-ink)",
+                  aspectRatio: aspectFromRef(artist.photo.asset._ref, "3 / 4"),
+                }}
               >
                 <Image
-                  src={urlFor(artist.photo).width(1200).height(1600).fit("crop").url()}
+                  src={urlFor(artist.photo).width(1400).fit("max").url()}
                   alt={`Porträt von ${name}`}
                   fill
                   priority
@@ -62,8 +66,8 @@ export default async function KuenstlerinPage() {
             />
 
             <h2
-              className="text-5xl md:text-6xl text-ink mb-8 uppercase leading-none"
-              style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}
+              className="text-ink mb-8 uppercase leading-none"
+              style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em", fontSize: "clamp(1.9rem, 8.5vw, 3.75rem)" }}
             >
               {name}
             </h2>

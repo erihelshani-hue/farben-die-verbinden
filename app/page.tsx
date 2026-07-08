@@ -6,6 +6,7 @@ import {
   getExhibitionInfo,
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { aspectFromRef } from "@/lib/imageDims";
 import ArtworkCard from "@/components/ArtworkCard";
 import FadeIn from "@/components/FadeIn";
 import Hero from "@/components/Hero";
@@ -38,10 +39,10 @@ export default async function HomePage() {
   return (
     <>
       <Hero
-        label="Kunstausstellung 2026"
+        label="Kunstausstellung 2026 · Rückblick"
         subtitle="Vjollca Reshani"
         datum={exhibition?.datum ?? "27. Juni 2026"}
-        ort={exhibition?.ort ?? "Sachsenhausen · Frankfurt"}
+        ort={exhibition?.ort ?? "Frankfurt"}
         imageUrl={heroImage}
       />
 
@@ -108,25 +109,28 @@ export default async function HomePage() {
       {/* ── Künstlerin Teaser ──────────────────────────────────── */}
       <section className="px-6 lg:px-14 pb-24 md:pb-36">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-16 items-center">
-          <FadeIn from="left" className="md:col-span-3">
+          <FadeIn from="left" className="md:col-span-2">
             {artist?.photo ? (
               <div
-                className="relative aspect-[4/3] overflow-hidden border-[2.5px] border-ink"
-                style={{ boxShadow: "8px 8px 0 var(--color-ink)" }}
+                className="relative overflow-hidden border-[2.5px] border-ink max-w-md mx-auto md:mx-0"
+                style={{
+                  boxShadow: "8px 8px 0 var(--color-ink)",
+                  aspectRatio: aspectFromRef(artist.photo.asset._ref, "3 / 4"),
+                }}
               >
                 <Image
-                  src={urlFor(artist.photo).width(1400).height(1050).fit("crop").url()}
+                  src={urlFor(artist.photo).width(1000).fit("max").url()}
                   alt={`Porträt von ${artist.name}`}
                   fill
-                  sizes="(max-width: 768px) 100vw, 60vw"
+                  sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover"
                 />
               </div>
             ) : (
-              <div className="aspect-[4/3] bg-line border-[2.5px] border-ink" />
+              <div className="aspect-[3/4] bg-line border-[2.5px] border-ink" />
             )}
           </FadeIn>
-          <FadeIn from="right" className="md:col-span-2">
+          <FadeIn from="right" className="md:col-span-3">
             <div
               className="h-[3px] w-12 mb-6"
               style={{ background: "linear-gradient(90deg, var(--color-tanne) 0 25%, var(--color-accent) 25% 50%, var(--color-ultramarin) 50% 75%, var(--color-sonne) 75%)" }}

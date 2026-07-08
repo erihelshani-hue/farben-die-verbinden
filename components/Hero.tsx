@@ -80,7 +80,7 @@ export default function Hero({ label, subtitle, datum, ort, imageUrl }: Props) {
         >
           {datum && (
             <div>
-              <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-white/55 mb-1">Ausstellung</p>
+              <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-white/55 mb-1">Rückblick</p>
               <p className="text-lg sm:text-xl uppercase text-white leading-none" style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}>
                 {datum}
               </p>

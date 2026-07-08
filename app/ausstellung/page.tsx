@@ -216,7 +216,7 @@ export default async function AusstellungPage() {
               Besucher motivieren mich, meine kreative Arbeit mit Leidenschaft fortzusetzen.
             </p>
             <p className="mt-10 text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-stone">
-              Vjollca Reshani · Frankfurt am Main · {datum}
+              Vjollca Reshani · Frankfurt · {datum}
             </p>
           </FadeIn>
         </div>
