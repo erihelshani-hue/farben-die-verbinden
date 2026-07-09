@@ -65,7 +65,7 @@ export default async function AusstellungPage() {
           </FadeIn>
           <FadeIn from="right">
             <div className="h-[3px] w-12 mb-6" style={{ background: "var(--color-accent)" }} />
-            <h2 className="text-3xl md:text-4xl text-ink mb-5 uppercase" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}>
+            <h2 className="text-ink mb-5 uppercase" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em", fontSize: "clamp(1.35rem, 5vw, 2.25rem)" }}>
               Die Werke
             </h2>
             <p className="text-base leading-relaxed text-stone">
@@ -125,7 +125,7 @@ export default async function AusstellungPage() {
           </FadeIn>
           <FadeIn from="right" className="md:order-1">
             <div className="h-[3px] w-12 mb-6" style={{ background: "var(--color-ultramarin)" }} />
-            <h2 className="text-3xl md:text-4xl text-ink mb-5 uppercase" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}>
+            <h2 className="text-ink mb-5 uppercase" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em", fontSize: "clamp(1.35rem, 5vw, 2.25rem)" }}>
               Stimmen der Gäste
             </h2>
             <p className="text-base leading-relaxed text-stone">
@@ -150,7 +150,7 @@ export default async function AusstellungPage() {
           </FadeIn>
           <FadeIn from="right">
             <div className="h-[3px] w-12 mb-6" style={{ background: "var(--color-sonne)" }} />
-            <h2 className="text-3xl md:text-4xl text-ink mb-5 uppercase" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em" }}>
+            <h2 className="text-ink mb-5 uppercase" style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.025em", fontSize: "clamp(1.35rem, 5vw, 2.25rem)" }}>
               Musikalische Begleitung
             </h2>
             <p className="text-base leading-relaxed text-stone">
